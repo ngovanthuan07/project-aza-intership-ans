@@ -1,0 +1,8 @@
+USE AZA_90;
+
+CREATE PROCEDURE GetLibValData
+AS
+BEGIN
+    SELECT *
+    FROM [s_lib_val];
+END;
