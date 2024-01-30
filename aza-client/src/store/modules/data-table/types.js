@@ -1,18 +1,23 @@
-export const DATA_TABLE = 'data-table'
-// GETTERS
-export const GET_SORT_ORDER = DATA_TABLE + '/' + 'getSortOrder'
-export const GET_SORT_ORDERS = DATA_TABLE + '/' + 'getSortOrders'
-export const GET_PAGE_SIZE = DATA_TABLE + '/' + 'getPageSize'
-export const GET_CURRENT_PAGE = DATA_TABLE + '/' + 'getCurrentPage'
-export const GET_TOTAL_ITEMS = DATA_TABLE + '/' + 'getTotalItems'
-export const GET_TOTAL_PAGES = DATA_TABLE + '/' + 'getTotalPages'
-export const GET_START_PAGE = DATA_TABLE + '/' + 'startPage'
+export const DATA_TABLE_FOLDER = 'data-table'
 
-// ACTIONS
-export const SET_SORT_ORDER = DATA_TABLE + '/' + 'setSortOrder'
-export const SET_SORT_ORDERS= DATA_TABLE + '/' + 'setSortOrders'
-export const SET_PAGE_SIZE = DATA_TABLE + '/' + 'setPageSize'
-export const SET_CURRENT_PAGE = DATA_TABLE + '/' + 'setCurrentPage'
-export const SET_TOTAL_ITEMS = DATA_TABLE + '/' + 'setTotalItems'
-export const SET_TOTAL_PAGES = DATA_TABLE + '/' +  'setTotalPages'
-export const SET_START_PAGE = DATA_TABLE + '/' + 'setStartPage'
+export const GET_SORT_ORDER = 'getSortOrder'
+export const GET_SORT_ORDERS = 'getSortOrders'
+export const GET_SORT_COLUMN = 'getSortColumn'
+export const GET_PAGE_SIZE = 'getPageSize'
+export const GET_CURRENT_PAGE = 'getCurrentPage'
+export const GET_TOTAL_ITEMS = 'getTotalItems'
+export const GET_TOTAL_PAGES = 'getTotalPages'
+export const GET_START_PAGE = 'getStartPage'
+export const SORT_ORDER = 'sortOrder';
+export const SORT_ORDERS = 'sortOrders';
+export const SORT_COLUMN = 'sortColumn';
+export const PAGE_SIZE = 'pageSize';
+export const CURRENT_PAGE = 'currentPage'
+export const TOTAL_ITEMS = 'totalItems'
+export const TOTAL_PAGES = 'totalPages'
+export const START_PAGE = 'startPage'
+export const TABLES = 'tables'
+
+export const AC_CHANGE_DATATABLES = 'changeDatatables'
+export const MU_UPDATE_DATATABLES = 'updateDatatables'
+

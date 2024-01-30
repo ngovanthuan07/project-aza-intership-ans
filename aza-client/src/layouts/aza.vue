@@ -5,22 +5,35 @@
             <Sidebar />
             <router-view></router-view>
         </div>
+
+      <component :is="toolbarComponent"></component>
     </div>
-    <div class="action-buttons-container">
-        <div class="col-12 py-3">
-            Footer
-        </div>
-    </div>
+
 </template>
 
 <script>
 import TheHeader from '../components/TheHeader.vue'
 import Sidebar from '../components/Sidebar.vue'
+import ToolbarBottomSearch from "../pages/aza/delivery-search/toolbar/ToolbarBottomSearch.vue";
+import ToolbarBottomDetail from "../pages/aza/delivery-detail/toolbar/ToolbarBottomDetail.vue";
+
 
 export default {
     components: {
         TheHeader,
-        Sidebar
+        Sidebar,
+        ToolbarBottomSearch,
+        ToolbarBottomDetail
+    },
+    computed: {
+      toolbarComponent() {
+        switch (this.$route.name) {
+          case 'delivery-search-from':
+            return 'ToolbarBottomSearch';
+          case 'delivery-detail':
+            return 'ToolbarBottomDetail';
+        }
+      }
     }
 }
 

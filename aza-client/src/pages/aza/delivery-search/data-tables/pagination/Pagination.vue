@@ -1,13 +1,13 @@
 <template>
-    <nav aria-label="Page navigation pagination-nav">
+    <nav v-if="pageSize > 0" aria-label="Page navigation pagination-nav">
         <ul class="pagination">
             <li class="page-item">
-                <button @click="onStartPage(page)" class="page-link" href="#" aria-label="Previous">
+                <button @click="onStartPage()" class="page-link" href="#" aria-label="Previous">
                     <span aria-hidden="true">&lt;&lt;</span>
                 </button>
             </li>
             <li class="page-item">
-                <button @click="onPrevPage(page)" class="page-link" href="#" aria-label="Previous">
+                <button @click="onPrevPage()" class="page-link" href="#" aria-label="Previous">
                     <span aria-hidden="true">&lt;</span>
                 </button>
             </li>
@@ -17,7 +17,7 @@
                 </button>
             </li>
             <li class="page-item">
-                <button @click="onNextPage(page)" class="page-link" href="#" aria-label="Next">
+                <button @click="onNextPage()" class="page-link" href="#" aria-label="Next">
                     <span aria-hidden="true">&gt;</span>
                 </button>
             </li>
@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import { handListPage } from '../../../helpers/pagination.js';
-import {AC_CHANGE_DATATABLES} from "../../../store/modules/data-table/types.js";
+import { handListPage } from '../../../../../helpers/pagination.js';
+import {AC_CHANGE_DATATABLES, CURRENT_PAGE} from "../../../../../store/modules/data-table/types.js";
 import { createNamespacedHelpers } from 'vuex';
 const { mapState: mapDatableState, mapActions: mapDatatableActions } = createNamespacedHelpers('dataTable');
 
@@ -48,7 +48,10 @@ export default {
         async onStartPage() {
             try {
                 let minP = await this.startPage;
-                await this[CHANGE_CURRENT_PAGE](minP);
+                await this[AC_CHANGE_DATATABLES]({
+                  type: CURRENT_PAGE,
+                  payload: minP
+                });
                 console.log('Change current page successful');
             } catch (error) {
                 console.error('Error changing current page:', error);
@@ -62,7 +65,10 @@ export default {
                     return
                 }
 
-                await this[CHANGE_CURRENT_PAGE](prev);
+                await this[AC_CHANGE_DATATABLES]({
+                  type: CURRENT_PAGE,
+                  payload: prev
+                });
                 console.log('Change current page successful');
             } catch (error) {
                 console.error('Error changing current page:', error);
@@ -72,7 +78,10 @@ export default {
             try {
                 if (cPage === -1)
                     return;
-                await this[CHANGE_CURRENT_PAGE](cPage);
+                await this[AC_CHANGE_DATATABLES]({
+                  type: CURRENT_PAGE,
+                  payload: cPage
+                });
                 console.log('Change current page successful');
             } catch (error) {
                 console.error('Error changing current page:', error);
@@ -85,7 +94,10 @@ export default {
                 if (next - 1 === maxP) {
                     return
                 }
-                await this[CHANGE_CURRENT_PAGE](next);
+                await this[AC_CHANGE_DATATABLES]({
+                  type: CURRENT_PAGE,
+                  payload: next
+                });
                 console.log('Change current page successful');
             } catch (error) {
                 console.error('Error changing current page:', error);
@@ -94,7 +106,10 @@ export default {
         async onEndPage() {
             try {
                 let maxP = await this.totalPages;
-                await this[CHANGE_CURRENT_PAGE](maxP);
+                await this[AC_CHANGE_DATATABLES]({
+                  type: CURRENT_PAGE,
+                  payload: maxP
+                });
                 console.log('Change current page successful');
             } catch (error) {
                 console.error('Error changing current page:', error);
@@ -109,7 +124,8 @@ export default {
         ...mapDatableState({
             currentPage: state => state.currentPage,
             totalPages: state => state.totalPages,
-            startPage: state => state.startPage
+            startPage: state => state.startPage,
+            pageSize: state => state.pageSize
         }),
         filteredPagination() {
             return handListPage(this.startPage, this.totalPages, this.currentPage);
@@ -130,5 +146,5 @@ export default {
 </script>
 
 <style scoped>
-@import './css/css.css';
+@import 'css/css.css';
 </style>

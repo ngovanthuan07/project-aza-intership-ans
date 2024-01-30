@@ -1,25 +1,43 @@
 <script>
 import {createNamespacedHelpers} from "vuex";
-import {CHANGE_BUTTONS} from "../../store/modules/buttons/types.js";
-const { mapState: mapButtonsState, mapActions: mapButtonsActions } = createNamespacedHelpers('buttons');
+import axios from "axios";
+import {URL_API_SEARCH} from "../../../../constants/api.js";
+
+const { mapState: mapDatableState, mapActions: mapDatatableActions } = createNamespacedHelpers('dataTable');
+const { mapState: mapFormDataSearchState, mapActions: mapFormDataSearchActions } = createNamespacedHelpers('formDataSearch');
 
   export default {
     components: {
 
     },
     methods: {
-      ...mapButtonsActions([
-        CHANGE_BUTTONS
-      ])
+      async handleSearch() {
+
+        let data = {
+           ...this.formDataSearch,
+          'sortType'    : this.sortOrder,
+          'sortColumn'  : this.sortColumn,
+          'currentPage' : this.currentPage,
+          'limit'       : this.totalPages
+        }
+
+        console.log(data)
+
+        let response = await axios.post(URL_API_SEARCH, data)
+      },
     },
     computed: {
-      ...mapButtonsState({
-        buttons: state => state.buttons
+      ...mapFormDataSearchState({
+        formDataSearch: state => state.formData
       }),
-      filteredButtonRight() {
-        console.log(this.buttons)
-        return this.buttons.filter(item => item.position === 'right')
-      }
+      ...mapDatableState({
+          sortOrder:    state => state.sortOrder,
+          sortColumn:   state => state.sortColumn,
+          currentPage:  state => state.currentPage,
+          totalPages:   state => state.totalPages,
+          tables:       state => state.tables
+      }),
+
     },
     data() {
       return {
@@ -33,28 +51,27 @@ const { mapState: mapButtonsState, mapActions: mapButtonsActions } = createNames
 <template>
   <div class="toolbar-bottom">
       <div class="toolbar-bottom-left">
-        <button type="button" class="btn btn-outline-primary"></button>
+        <button type="button" class="btn">
+          <font-awesome-icon :icon="['fas', 'caret-left']" />  戻る
+        </button>
       </div>
       <div class="toolbar-bottom-right">
-        <Buttons
-            :buttons="filteredButtonRight"
-        />
+        <button class="btn">
+          新規追加
+        </button>
+        <button class="btn">
+          クリア
+        </button>
+        <button class="btn">
+          EXCEL
+        </button>
+        <button class="btn btn-outline-primary" @click="handleSearch">
+          <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
+        </button>
       </div>
   </div>
 </template>
 
 <style scoped>
-.toolbar-bottom {
-  width: 100%;
-  height: 50px;
-  background-color: #fff;
-  border-top: 1px solid #fff;
-  position: relative;
-  bottom: 0;
-  z-index: 1000;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
+@import './css/css.css';
 </style>

@@ -1,13 +1,12 @@
 export const SEARCH = 'search'
 
 // GETTERS
-export const GET_FORM_DATA = 'getFormData'
+export const GET_DATA = 'getData'
 // ACTIONS
-export const UPDATE_FORM_DATA = 'updateFormData'
+export const UPDATE_DATA = 'updateData'
 
-export const ON_RESET_FORM_DATA = 'resetFormData'
 
 // MUTATIONS
-export const  SET_FORM_DATA = 'setFormData'
+export const  SET_DATA = 'setData'
 
-export const  RESET_FORM_DATA = 'resetFormData'
+export const  RESET_DATA = 'resetData'

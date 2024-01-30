@@ -1,0 +1,21 @@
+.box-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.box-top .box-select-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.box-top .box-select-page .text-page {
+    font-size: 15px;
+    padding-left: 10px;
+}
+.box-bottom {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}

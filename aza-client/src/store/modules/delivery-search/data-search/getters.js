@@ -1,7 +1,7 @@
 import {
-    GET_FORM_DATA
+    UPDATE_DATA
 } from "./types.js";
 
 export default {
-    [GET_FORM_DATA]: state => state.formData
+    [UPDATE_DATA]: state => state.datas
 }

@@ -9,8 +9,8 @@ const aza = [
                 component: () => import ("../pages/aza/delivery-detail/index.vue")
             },
             {
-                path: "delivery-search",
-                name: "delivery-search",
+                path: "delivery-search-from",
+                name: "delivery-search-from",
                 component: () => import ("../pages/aza/delivery-search/index.vue")
             },
               // Thêm route "catch-all" cho bất kỳ route nào không khớp

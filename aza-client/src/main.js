@@ -22,8 +22,6 @@ import 'bootstrap/dist/css/bootstrap-utilities.min.css';
 import store from './store'
 
 
-
-
 const app = createApp(App)
 app.use(route)
 app.use(store)

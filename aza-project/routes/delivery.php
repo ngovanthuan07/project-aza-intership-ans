@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('delivery-search')->group(function () {
+    Route::post('/search', [SearchController::class, 'search'])->name('delivery-search.search');
 });
 
 Route::prefix('lib-val')->group(function () {
