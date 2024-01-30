@@ -1,0 +1,33 @@
+#table-data thead th {
+    background-color: #e3e9ef;
+}
+
+#table-data .table-header-item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+#table-data .table-header-item span {
+    font-size: 10px;
+}
+#table-data .table-header-item .table-header-icon {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+}
+
+#table-data tbody tr:nth-of-type(even) td {
+    background-color: #f8f9fa;
+}
+
+/* Định dạng màu nền cho các dòng lẻ */
+#table-data tbody tr:nth-of-type(ood) td {
+    background-color: #ffffff;
+}
+
+#table-data tbody tr:hover td{
+    background-color: #e3e9ef;
+    cursor: pointer;
+}

@@ -3,7 +3,7 @@
         <ul class="pagination">
             <li class="page-item">
                 <button @click="onStartPage(page)" class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&lt;&lt;</span> 
+                    <span aria-hidden="true">&lt;&lt;</span>
                 </button>
             </li>
             <li class="page-item">
@@ -12,16 +12,12 @@
                 </button>
             </li>
             <li class="page-item" v-for="(page) in filteredPagination">
-                <button 
-                    @click="onCurrentPage(page)" 
-                    class="page-link"
-                    :class="{ 'active' : isActive(page)}"
-                    href="#">
-                    {{ page > 0 ? page : '...' }}
+                <button @click="onCurrentPage(page)" class="page-link" :class="{ 'active': isActive(page) }" href="#">
+                   <span> {{ page > 0 ? page : '...' }}</span>
                 </button>
             </li>
             <li class="page-item">
-                <button @click="onNextPage(page)"  class="page-link" href="#" aria-label="Next">
+                <button @click="onNextPage(page)" class="page-link" href="#" aria-label="Next">
                     <span aria-hidden="true">&gt;</span>
                 </button>
             </li>
@@ -35,97 +31,104 @@
 </template>
 
 <script>
-import { ref, computed, defineProps } from 'vue';
-import { handListPage } from '../helpers/pagination.js';
+import { handListPage } from '../../../helpers/pagination.js';
+import {AC_CHANGE_DATATABLES} from "../../../store/modules/data-table/types.js";
+import { createNamespacedHelpers } from 'vuex';
+const { mapState: mapDatableState, mapActions: mapDatatableActions } = createNamespacedHelpers('dataTable');
+
 
 export default {
     props: {
-        
+
     },
     methods: {
-        async onStartPage () {
+        ...mapDatatableActions([
+            AC_CHANGE_DATATABLES
+        ]),
+        async onStartPage() {
             try {
-                let minP = await this.$store.getters['pagination/minPageItem'];
-                await this.$store.dispatch('pagination/onChangeCurrentPage', minP);
+                let minP = await this.startPage;
+                await this[CHANGE_CURRENT_PAGE](minP);
                 console.log('Change current page successful');
             } catch (error) {
                 console.error('Error changing current page:', error);
             }
         },
-        async onPrevPage () {
+        async onPrevPage() {
             try {
-                let prev = await this.$store.getters['pagination/currentPage'] - 1;
-                let minP = await this.$store.getters['pagination/minPageItem'];
-                if(prev + 1 === minP){
+                let prev = await this.currentPage - 1;
+                let minP = await this.startPage;
+                if (prev + 1 === minP) {
                     return
                 }
-            
-                await this.$store.dispatch('pagination/onChangeCurrentPage', prev);
+
+                await this[CHANGE_CURRENT_PAGE](prev);
                 console.log('Change current page successful');
             } catch (error) {
                 console.error('Error changing current page:', error);
             }
         },
-        async onCurrentPage (cPage) {
+        async onCurrentPage(cPage) {
             try {
-                if(cPage === -1) 
+                if (cPage === -1)
                     return;
-                await this.$store.dispatch('pagination/onChangeCurrentPage', cPage);
+                await this[CHANGE_CURRENT_PAGE](cPage);
                 console.log('Change current page successful');
             } catch (error) {
                 console.error('Error changing current page:', error);
             }
         },
-        async onNextPage () {
+        async onNextPage() {
             try {
-                let next = await this.$store.getters['pagination/currentPage'] + 1;
-                let maxP = await this.$store.getters['pagination/maxPageItem'];
-                if(next - 1 === maxP){
+                let next = await this.currentPage + 1;
+                let maxP = await this.totalPages;
+                if (next - 1 === maxP) {
                     return
                 }
-                console.log(next);
-                await this.$store.dispatch('pagination/onChangeCurrentPage', next);
+                await this[CHANGE_CURRENT_PAGE](next);
                 console.log('Change current page successful');
             } catch (error) {
                 console.error('Error changing current page:', error);
             }
         },
-        async onEndPage () {
+        async onEndPage() {
             try {
-                let maxP = await this.$store.getters['pagination/maxPageItem'];
-                await this.$store.dispatch('pagination/onChangeCurrentPage', maxP);
+                let maxP = await this.totalPages;
+                await this[CHANGE_CURRENT_PAGE](maxP);
                 console.log('Change current page successful');
             } catch (error) {
                 console.error('Error changing current page:', error);
             }
         },
         isActive(page) {
-            let curP =  this.$store.getters['pagination/currentPage'] * 1;
+            let curP = this.currentPage * 1;
             return curP === page ? true : false;
         }
     },
     computed: {
-        filteredPagination () {
-            return handListPage(
-                this.$store.getters['pagination/minPageItem'], this.$store.getters['pagination/maxPageItem'], this.$store.getters['pagination/currentPage']);
+        ...mapDatableState({
+            currentPage: state => state.currentPage,
+            totalPages: state => state.totalPages,
+            startPage: state => state.startPage
+        }),
+        filteredPagination() {
+            return handListPage(this.startPage, this.totalPages, this.currentPage);
         }
     },
     setup(props) {
 
         return {
-            
+
         };
     },
+    data() {
+        return {
+
+        }
+    }
 };
 </script>
 
-<style>
-.pagination .page-link {
-   width: 10px;
-   height: 10px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   font-size: 10px;
-}
+<style scoped>
+@import './css/css.css';
 </style>

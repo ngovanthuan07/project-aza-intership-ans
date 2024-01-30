@@ -1,0 +1,13 @@
+.content .container-fluid .row .form-group label {
+  font-size: 10px;
+}
+.content .container-fluid .row .form-group input,
+select {
+  height: 24px;
+  border-radius: 3px;
+  font-size: 10px;
+}
+
+.content .container-fluid .row .form-group .form-select {
+  font-size: 9px;
+}
