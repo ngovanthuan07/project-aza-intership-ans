@@ -5,10 +5,17 @@ namespace App\Http\Controllers\Delivery\Search;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use PDO;
 
 class ExcelController extends Controller
 {
+    private $excel;
+
+    public function __construct(Excel $excel)
+    {
+        $this->excel = $excel;
+    }
     public function report(Request $request)
     {
         $query = 'EXEC usp_DeliverySearch 

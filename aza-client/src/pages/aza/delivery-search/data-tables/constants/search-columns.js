@@ -1,34 +1,34 @@
 export default [
     {
         title: '納入先コード',
-        column: 'd4',
+        column: 'delivery_cd',
     },
     {
         title: '納入先名',
-        column: 'd5'
+        column: 'delivery_nm'
     },
     {
         title: 'フリガナ',
-        column: 'd6'
+        column: 'delivery_kn'
     },
     {
         title: '住所',
-        column: 'd7'
+        column: 'address'
     },
     {
         title: '電話番号',
-        column: 'd8'
+        column: 'tel'
     },
     {
         title: '納入先分類１',
-        column: 'd9'
+        column: 'delivery_class_1'
     },
     {
         title: '納入先分類２',
-        column: 'd10'
+        column: 'delivery_class_2'
     },
     {
         title: '納入先分類３',
-        column: 'd11'
+        column: 'delivery_class_3'
     }
 ]

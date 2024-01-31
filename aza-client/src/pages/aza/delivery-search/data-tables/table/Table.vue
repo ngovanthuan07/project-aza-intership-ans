@@ -1,9 +1,15 @@
 <script>
 import {createNamespacedHelpers} from "vuex";
-import {AC_CHANGE_DATATABLES, SORT_COLUMN, SORT_ORDER} from "../../../../../store/modules/data-table/types.js";
+import {
+  AC_CHANGE_DATATABLES,
+  LIST_DATA,
+  SORT_COLUMN,
+  SORT_ORDER
+} from "../../../../../store/modules/data-table/types.js";
+import {postData} from "../../service/HandleAPI.js";
 
 const {mapState: mapDatableState, mapActions: mapDatatableActions} = createNamespacedHelpers('dataTable');
-const {mapState: mapSearchDataState, mapActions: mapSearchDataActions} = createNamespacedHelpers('dataSearch');
+const { mapState: mapFormDataSearchState, mapActions: mapFormDataSearchActions } = createNamespacedHelpers('formDataSearch');
 
 export default {
   props: {
@@ -11,26 +17,41 @@ export default {
   },
   methods: {
     ...mapDatatableActions([
-      [AC_CHANGE_DATATABLES]
+        AC_CHANGE_DATATABLES
     ]),
     async onSortColumn(column) {
+      if(this.totalPages === 0) {
+        alert('Cannot Data Sort')
+        return;
+      }
       if (column === this.sortColumn) {
         let tSort = this.sortOrder === 'ASC' ? 'DESC' : 'ASC'
-        await this[AC_CHANGE_DATATABLES]({
+         this[AC_CHANGE_DATATABLES]({
           type: SORT_ORDER,
           payload: tSort
         })
       } else {
-        await this[AC_CHANGE_DATATABLES]({
+         this[AC_CHANGE_DATATABLES]({
           type: SORT_COLUMN,
           payload: column
         })
-        await this[AC_CHANGE_DATATABLES]({
-          type: SORT_COLUMN,
+         this[AC_CHANGE_DATATABLES]({
+          type: SORT_ORDER,
           payload: 'ASC'
         })
       }
-      console.log('column: ' + this.sortColumn + ' sort:' + this.sortOrder)
+      let dataSort = {
+        ...this.formDataSearch,
+        'sortType'    : this.sortOrder,
+        'sortColumn'  : this.sortColumn,
+        'currentPage' : this.currentPage,
+        'limit'       : this.pageSize
+      }
+      let result = await postData(import.meta.env.VITE_APP_API_SEARCH, dataSort);
+      this[AC_CHANGE_DATATABLES]({
+        type: LIST_DATA,
+        payload: result.resultSearch,
+      })
     },
     onCheckSort(column) {
       let sortType = {
@@ -41,18 +62,20 @@ export default {
       return column === this.sortColumn ?
           sortType[this.sortOrder]
           : sortType['DEFAULT']
-
     }
   },
   computed: {
     ...mapDatableState({
-      sortOrder: state => state.sortOrder,
-      sortColumn: state => state.sortColumn,
-      pageSize: state => state.pageSize,
-      currentPage: state => state.currentPage,
+      sortOrder:    state => state.sortOrder,
+      sortColumn:   state => state.sortColumn,
+      currentPage:  state => state.currentPage,
+      pageSize:     state => state.pageSize,
+      totalPages:   state => state.totalPages,
+      startPage:    state => state.startPage,
       listData: state => state.listData
     }),
-    ...mapSearchDataState({
+    ...mapFormDataSearchState({
+      formDataSearch: state => state.formData
     }),
     filterDataSearch() {
 
@@ -73,14 +96,14 @@ export default {
   <table id="table-data" class="table table-bordered table-striped-custom">
     <thead>
     <tr>
-      <th v-for="col in columns">
-        <div class="table-header-item">
-          <span>{{ col.title }}</span>
-          <font-awesome-icon :icon="onCheckSort(col.column)" class="table-header-icon"
+      <th v-for="col in columns" scope="col" class="table-header">
+        <div class="table-header-box">
+          <span></span>
+          <span class="text-center">{{ col.title }}</span>
+          <font-awesome-icon :icon="onCheckSort(col.column)" class="fws-icon"
                              @click="onSortColumn(col.column)"/>
         </div>
       </th>
-
     </tr>
     </thead>
     <tbody>

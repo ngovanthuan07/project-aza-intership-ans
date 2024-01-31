@@ -29,18 +29,17 @@ BEGIN
       ,  @w_delivery_class_cd_3         NVARCHAR(50) = 'delivery_class_3_div'
 
     SELECT  d.delivery_cd
-    ,       d.delivery_nm1
-    ,       d.delivery_nm2
-    ,       d.delivery_kn1
-    ,       d.delivery_kn2
+    ,       CONCAT(d.delivery_nm1, d.delivery_nm2) AS 'delivery_nm'
+    ,       CONCAT(d.delivery_kn1, d.delivery_kn2) AS 'delivery_kn'
+    ,       d.zip_cd
     ,       CONCAT(slv_pre.lib_val_nm, d.city_nm, d.town_nm, d.apartment_nm) AS  'address'
     ,       d.tel
+    ,       d.fax
     ,       slv_dc_1.lib_val_nm  
-    ,       slv_dc_1.lib_val_cd
     ,       slv_dc_2.lib_val_nm
-    ,       slv_dc_2.lib_val_cd
     ,       slv_dc_3.lib_val_nm
-    ,       slv_dc_3.lib_val_cd
+    ,       d.remark
+    ,       d.cre_date
     FROM [dbo].[m_delivery]     AS    d
     LEFT OUTER JOIN s_lib_val   AS    slv_pre
                                 ON   (d.prefecture_cd = slv_pre.lib_val_cd)

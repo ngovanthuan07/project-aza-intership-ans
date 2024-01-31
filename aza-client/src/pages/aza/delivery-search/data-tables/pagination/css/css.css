@@ -6,3 +6,36 @@
     align-items: center;
     font-size: 10px;
 }
+
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pagination li {
+    margin-right: 5px;
+}
+
+.pagination button {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+.pagination button {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.pagination li .active {
+    color: #fff;
+    border: none;
+}

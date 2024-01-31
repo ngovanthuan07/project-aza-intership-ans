@@ -1,7 +1,7 @@
 export default {
     sortOrder: 'ASC',
     sortOrders: [],
-    sortColumn: 'delivery_dc',
+    sortColumn: null,
     pageSize: 10,
     currentPage: 1,
     totalItems: 0,

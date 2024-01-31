@@ -9,14 +9,14 @@ export let handListPage = (minPage, maxPage, currentPage, pages = 7) => {
    if(maxPage <= pages) {
     return allPageNumber
    }
-   if(scopeFirst.includes(currentPage) && currentPage < scopeFirst[scopeFirst.length - 1]) {
+   if(scopeFirst.includes(currentPage) && currentPage !== scopeFirst[scopeFirst.length - 1]) {
     return [...scopeFirst, -1,...allPageNumber.slice(-1)]
    }
-   if(scopeLast.includes(currentPage)) {
+   if(scopeLast.includes(currentPage) && currentPage !== scopeLast[0]) {
     return [...scopeFirst.slice(0, 1), -1,...allPageNumber.slice(-5)]
    }
 
    let backCurrentPage = currentPage - 1
    let forwardCurrentPage = currentPage + 1
-   return [...scopeFirst.slice(0, 1),-1, backCurrentPage, currentPage, forwardCurrentPage,-1,  ...scopeLast.splice(-1)]
+   return [...scopeFirst.slice(0, 1), -1, backCurrentPage, currentPage, forwardCurrentPage,-1,  ...scopeLast.splice(-1)]
 }

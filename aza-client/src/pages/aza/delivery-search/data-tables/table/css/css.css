@@ -1,20 +1,16 @@
 #table-data thead th {
     background-color: #e3e9ef;
 }
-
-#table-data .table-header-item {
-    width: 100%;
+#table-data thead tr .table-header .table-header-box {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    position: relative;
 }
-#table-data .table-header-item span {
+
+#table-data thead tr th span {
     font-size: 10px;
 }
-#table-data .table-header-item .table-header-icon {
-    position: absolute;
-    right: 0;
+#table-data thead tr th .fws-icon {
     cursor: pointer;
 }
 
