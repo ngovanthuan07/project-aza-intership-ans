@@ -2,45 +2,36 @@
 
 namespace App\Http\Controllers\Delivery\Search;
 
+use App\Exports\DeliveryExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-use PDO;
 
 class ExcelController extends Controller
 {
-    private $excel;
-
-    public function __construct(Excel $excel)
-    {
-        $this->excel = $excel;
-    }
     public function report(Request $request)
     {
-        $query = 'EXEC usp_DeliverySearch 
-                         :delivery_cd
-                    ,    :delivery_nm
-                    ,    :delivery_kn
-                    ,    :address
-                    ,    :tel
-                    ,    :delivery_class_1
-                    ,    :delivery_class_2
-                    ,    :delivery_class_3';
+        $query = 'EXEC usp_DeliverySearch
+                     :delivery_cd
+                ,    :delivery_nm
+                ,    :delivery_kn
+                ,    :address
+                ,    :tel
+                ,    :delivery_class_1
+                ,    :delivery_class_2
+                ,    :delivery_class_3';
+        $data = DB::select($query, $request->all());
 
-        $statement = DB::connection()->getPdo()->prepare($query);
+        $export = new DeliveryExport($data);;
 
-        $statement->execute($request->all());
+        $fileName = 'excel_' . now()->format('Y_m_d_His') . '.xlsx';
+        $filePath = 'excel/' . $fileName;
 
-        $results = $statement->fetchAll(PDO::FETCH_OBJ);
-
-        // Move to the next result set
-        $statement->nextRowset();
-
-        $totalPages = $statement->fetchAll(PDO::FETCH_OBJ);
+        Excel::store($export, $filePath, 'public');
 
         return response()->json([
-            'data' => $results,
+            'file_path' => asset($filePath)
         ]);
     }
 }
