@@ -5,7 +5,7 @@ export default {
     pageSize: 10,
     currentPage: 1,
     totalItems: 0,
-    totalPages: 10,
+    totalPages: 0,
     startPage: 1,
-    tables: []
+    listData: []
 }

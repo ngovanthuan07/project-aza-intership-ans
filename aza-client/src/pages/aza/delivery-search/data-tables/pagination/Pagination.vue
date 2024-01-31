@@ -1,5 +1,5 @@
 <template>
-    <nav v-if="pageSize > 0" aria-label="Page navigation pagination-nav">
+    <nav v-if="totalPages > 0" aria-label="Page navigation pagination-nav">
         <ul class="pagination">
             <li class="page-item">
                 <button @click="onStartPage()" class="page-link" href="#" aria-label="Previous">

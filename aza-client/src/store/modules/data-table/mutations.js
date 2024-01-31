@@ -1,6 +1,6 @@
 import {
-    CURRENT_PAGE,
-    MU_UPDATE_DATATABLES, PAGE_SIZE, SORT_COLUMN, SORT_ORDER, SORT_ORDERS, START_PAGE, TABLES, TOTAL_ITEMS, TOTAL_PAGES
+    CURRENT_PAGE, LIST_DATA,
+    MU_UPDATE_DATATABLES, PAGE_SIZE, SORT_COLUMN, SORT_ORDER, SORT_ORDERS, START_PAGE, TOTAL_ITEMS, TOTAL_PAGES
 } from "./types.js";
 
 export default {
@@ -32,8 +32,9 @@ export default {
             case START_PAGE:
                 state.statPage = payload
                 break;
-            case TABLES:
-                state.tables = payload
+            case LIST_DATA:
+                state.listData = payload
+                break;
         }
     }
 }

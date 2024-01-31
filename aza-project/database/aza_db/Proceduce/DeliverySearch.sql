@@ -153,7 +153,7 @@ BEGIN
         FETCH NEXT @p_limit ROWS ONLY;
 
 
-	SELECT  COUNT(1) AS 'TotalItem'
+	SELECT  COUNT(1) AS 'totalItems'
     FROM    #TempDeliverySearchResults;
     
 -- Drop Temp

@@ -16,8 +16,9 @@ export const CURRENT_PAGE = 'currentPage'
 export const TOTAL_ITEMS = 'totalItems'
 export const TOTAL_PAGES = 'totalPages'
 export const START_PAGE = 'startPage'
-export const TABLES = 'tables'
+export const LIST_DATA = 'listData'
 
 export const AC_CHANGE_DATATABLES = 'changeDatatables'
+export const AC_CHANGE_MULTIPLE_DATATABLES = 'multipleChangeDatatables'
 export const MU_UPDATE_DATATABLES = 'updateDatatables'
 

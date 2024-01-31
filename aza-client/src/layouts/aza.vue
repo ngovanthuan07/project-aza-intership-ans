@@ -28,7 +28,7 @@ export default {
     computed: {
       toolbarComponent() {
         switch (this.$route.name) {
-          case 'delivery-search-from':
+          case 'delivery-search':
             return 'ToolbarBottomSearch';
           case 'delivery-detail':
             return 'ToolbarBottomDetail';

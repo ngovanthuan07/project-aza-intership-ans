@@ -1,5 +1,5 @@
 import {
-    AC_CHANGE_DATATABLES, MU_UPDATE_DATATABLES
+    AC_CHANGE_DATATABLES, AC_CHANGE_MULTIPLE_DATATABLES, MU_UPDATE_DATATABLES
 
 } from "./types.js";
 
@@ -11,5 +11,11 @@ export default {
             default:
                 context.commit(MU_UPDATE_DATATABLES, action)
         }
+    },
+
+     [AC_CHANGE_MULTIPLE_DATATABLES](context, actions) {
+        for(let action of actions) {
+            context.commit(MU_UPDATE_DATATABLES, action)
+       }
     }
 }

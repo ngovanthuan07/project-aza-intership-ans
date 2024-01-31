@@ -2,7 +2,7 @@
     <div class="box-top">
       <div class="box-select-page">
         <div>
-          <select   v-model="pageS" @blur="handlePageSize" class="form-select">
+          <select  v-model="pageS" @blur="handlePageSize" class="form-select">
             <option v-for="option in selectOptions"
                     :value="option.value">
                     {{option.text}}
@@ -59,14 +59,14 @@ export default {
         type: PAGE_SIZE,
         payload: this.pageS
       })
-      console.log(this.pageSize)
+
     },
   },
   computed: {
     ...mapDatableState({
-      pageSize: state => state.pageSize,
-      currentPage: state => state.currentPage,
-      totalPages: state => state.totalPages,
+      sortOrder:    state => state.sortOrder,
+      currentPage:  state => state.currentPage,
+      pageSize:   state => state.pageSize,
     }),
     ...mapFormDataSearchState({
       formDataSearch: state => state.formData

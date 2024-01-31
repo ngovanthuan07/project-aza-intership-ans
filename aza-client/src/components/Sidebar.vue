@@ -44,9 +44,9 @@
                 </button>
             </li>
             <!-- G -->
-            <li class="sidebar-item nav-item" :class="{ 'active': $route.name === 'delivery-search-from' }">
+            <li class="sidebar-item nav-item" :class="{ 'active': $route.name === 'delivery-search' }">
 
-                <router-link :to="{ name: 'delivery-search-from' }" class="nav-link sidebar-router" href="#">
+                <router-link :to="{ name: 'delivery-search' }" class="nav-link sidebar-router" href="#">
                     <font-awesome-icon :icon="['fas', 'up-long']" />
                     <span class="sidebar-content">データ出力</span>
                 </router-link>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Delivery;
+namespace App\Http\Controllers\Delivery\Search;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -31,13 +31,15 @@ class SearchController extends Controller
 
         $results = $statement->fetchAll(PDO::FETCH_OBJ);
 
-        // Move to the next result set
         $statement->nextRowset();
-
-        $totalPages = $statement->fetchAll(PDO::FETCH_OBJ);
+        $pageSize = $request->input('limit' , 10);
+        $totalItems = (int) $statement->fetchAll(PDO::FETCH_OBJ)[0]->totalItems;
+        $totalPages =  ceil($totalItems / $pageSize);
 
         return response()->json([
-            'data' => $results,
+            'resultSearch' => $results,
+            'totalItems' => $totalItems,
+            'totalPages' => $totalPages
         ]);
     }
 }
