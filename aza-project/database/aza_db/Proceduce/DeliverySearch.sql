@@ -87,7 +87,8 @@ BEGIN
         (d.delivery_nm2         LIKE N'%' + @p_delivery_nm + '%'        OR @p_delivery_nm       IS NULL)      AND
         (d.delivery_kn1         LIKE N'%' + @p_delivery_kn  + '%'       OR @p_delivery_kn       IS NULL)      AND
         (d.delivery_kn2         LIKE N'%' + @p_delivery_kn + '%'        OR  @p_delivery_kn      IS NULL)      AND
-        (CONCAT(slv_pre.lib_val_nm, d.city_nm, d.town_nm, d.apartment_nm) LIKE N'%' + @p_address + '%' OR @p_address IS NULL)       AND
+        (CONCAT(slv_pre.lib_val_nm, d.city_nm, d.town_nm, d.apartment_nm)
+                                LIKE N'%' + @p_address + '%'            OR @p_address           IS NULL)       AND
         (d.tel                  LIKE N'%' + @p_tel + '%'                OR @p_tel               IS NULL)      AND
         (slv_dc_1.lib_val_cd    =           @p_delivery_class_1         OR @p_delivery_class_1  IS NULL
                                                                         OR @p_delivery_class_1 = '')          AND

@@ -20,3 +20,4 @@ export let handListPage = (minPage, maxPage, currentPage, pages = 7) => {
    let forwardCurrentPage = currentPage + 1
    return [...scopeFirst.slice(0, 1), -1, backCurrentPage, currentPage, forwardCurrentPage,-1,  ...scopeLast.splice(-1)]
 }
+

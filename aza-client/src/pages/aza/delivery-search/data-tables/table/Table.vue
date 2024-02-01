@@ -4,7 +4,8 @@ import {
   AC_CHANGE_DATATABLES,
   LIST_DATA,
   SORT_COLUMN,
-  SORT_ORDER
+  SORT_ORDER,
+  UPDATE_STATE
 } from "../../../../../store/modules/data-table/types.js";
 import {postData} from "../../service/HandleAPI.js";
 
@@ -19,6 +20,12 @@ export default {
     ...mapDatatableActions([
         AC_CHANGE_DATATABLES
     ]),
+    uploadDatable(payload) {
+      this[AC_CHANGE_DATATABLES]({
+        type: UPDATE_STATE,
+        payload
+      })
+    },
     async onSortColumn(column) {
       if(this.totalPages === 0) {
         alert('Cannot Data Sort')
@@ -26,18 +33,13 @@ export default {
       }
       if (column === this.sortColumn) {
         let tSort = this.sortOrder === 'ASC' ? 'DESC' : 'ASC'
-         this[AC_CHANGE_DATATABLES]({
-          type: SORT_ORDER,
-          payload: tSort
+        this.uploadDatable({
+          [SORT_ORDER]    : tSort
         })
       } else {
-         this[AC_CHANGE_DATATABLES]({
-          type: SORT_COLUMN,
-          payload: column
-        })
-         this[AC_CHANGE_DATATABLES]({
-          type: SORT_ORDER,
-          payload: 'ASC'
+        this.uploadDatable( {
+          [SORT_COLUMN]    : column,
+          [SORT_ORDER]     : 'ASC'
         })
       }
       let dataSort = {
@@ -48,9 +50,8 @@ export default {
         'limit'       : this.pageSize
       }
       let result = await postData(import.meta.env.VITE_APP_API_SEARCH, dataSort);
-      this[AC_CHANGE_DATATABLES]({
-        type: LIST_DATA,
-        payload: result.resultSearch,
+      this.uploadDatable({
+        [LIST_DATA]: result.resultSearch
       })
     },
     onCheckSort(column) {
@@ -76,13 +77,7 @@ export default {
     }),
     ...mapFormDataSearchState({
       formDataSearch: state => state.formData
-    }),
-    filterDataSearch() {
-
-
-      return data;
-
-    }
+    })
   },
   setup(props) {
 

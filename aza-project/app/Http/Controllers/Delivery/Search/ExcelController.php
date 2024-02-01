@@ -12,7 +12,7 @@ class ExcelController extends Controller
 {
     public function report(Request $request)
     {
-        $query = 'EXEC usp_DeliverySearch
+        $query = 'EXEC usp_DeliveryExcel
                      :delivery_cd
                 ,    :delivery_nm
                 ,    :delivery_kn
@@ -31,7 +31,7 @@ class ExcelController extends Controller
         Excel::store($export, $filePath, 'public');
 
         return response()->json([
-            'file_path' => asset($filePath)
+            'file_path' => asset('storage/' . $filePath)
         ]);
     }
 }

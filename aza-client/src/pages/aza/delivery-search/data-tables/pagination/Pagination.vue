@@ -32,13 +32,17 @@
 
 <script>
 import {handListPage} from '../../../../../helpers/pagination.js';
-import {AC_CHANGE_DATATABLES, CURRENT_PAGE, LIST_DATA} from "../../../../../store/modules/data-table/types.js";
+import {
+  AC_CHANGE_DATATABLES,
+  CURRENT_PAGE,
+  LIST_DATA,
+  UPDATE_STATE
+} from "../../../../../store/modules/data-table/types.js";
 import {createNamespacedHelpers} from 'vuex';
 import {postData} from "../../service/HandleAPI.js";
 
 const {mapState: mapDatableState, mapActions: mapDatatableActions} = createNamespacedHelpers('dataTable');
 const { mapState: mapFormDataSearchState, mapActions: mapFormDataSearchActions } = createNamespacedHelpers('formDataSearch');
-const { mapState: mapSearchDataState, mapActions: mapSearchDataActions } = createNamespacedHelpers('dataSearch');
 
 
 export default {
@@ -69,22 +73,21 @@ export default {
     },
     async changePage(page) {
       try {
-        this[AC_CHANGE_DATATABLES]({
-          type: CURRENT_PAGE,
-          payload: page
-        });
         let dataSelect = {
           ...this.formDataSearch,
           'sortType'    : this.sortOrder,
           'sortColumn'  : this.sortColumn,
-          'currentPage' : this.currentPage,
+          'currentPage' : page,
           'limit'       : this.pageSize
         }
         let result = await postData(import.meta.env.VITE_APP_API_SEARCH, dataSelect);
         this[AC_CHANGE_DATATABLES]({
-          type: LIST_DATA,
-          payload: result.resultSearch,
-        })
+          type: UPDATE_STATE,
+          payload: {
+            [CURRENT_PAGE]  : page,
+            [LIST_DATA]     : result.resultSearch,
+          }
+        });
         console.log('Change current page successful');
       } catch (error) {
         console.error('Error changing current page:', error);

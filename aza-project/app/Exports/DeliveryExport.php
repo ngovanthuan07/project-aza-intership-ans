@@ -9,6 +9,8 @@ use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+
 class DeliveryExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles
 {
     protected $data;
@@ -25,12 +27,22 @@ class DeliveryExport implements FromCollection, WithHeadings, ShouldAutoSize, Wi
 
     public function headings(): array
     {
-        // Thêm tiêu đề cột ở đây
         return [
-            'Delivery Code', 'Delivery Name 1', 'Delivery Name 2',
-            'Knowledge 1', 'Knowledge 2', 'Address', 'Telephone',
-            'Lib Val Name 1', 'Lib Val Code 1', 'Lib Val Name 2', 'Lib Val Code 2',
-            'Lib Val Name 3', 'Lib Val Code 3'
+              '納入先コード' 
+            , '納入先名'
+            , 'フリガナ'
+            , '郵便番号'
+            , '住所'
+            , '電話番号'
+            , 'FAX番号'
+            , '納入先分類１'
+            , '納入先分類２'
+            , '納入先分類３'
+            , '備考'
+            , '登録日付'
+            , '登録利用者'
+            , '最終更新'
+            , '最終利用者名'
         ];
     }
 
