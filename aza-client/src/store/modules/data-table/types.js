@@ -18,7 +18,7 @@ export const TOTAL_PAGES = 'totalPages'
 export const START_PAGE = 'startPage'
 export const LIST_DATA = 'listData'
 export const UPDATE_STATE = 'UPDATE_STATE'
-
+export const RESET_STATE = 'RESET_STATE'
 export const AC_CHANGE_DATATABLES = 'changeDatatables'
 export const AC_CHANGE_MULTIPLE_DATATABLES = 'multipleChangeDatatables'
 export const MU_UPDATE_DATATABLES = 'updateDatatables'

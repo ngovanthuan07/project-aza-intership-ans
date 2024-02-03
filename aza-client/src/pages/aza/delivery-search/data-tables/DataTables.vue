@@ -1,8 +1,8 @@
 <template>
   <div class="box-top">
     <div class="box-select-page">
-      <div>
-        <select v-if="totalPages > 0" v-model="pageS" @change="handlePageSize" class="form-select">
+      <div v-if="totalPages > 0" >
+        <select v-model="pageS"  @change="handlePageSize" class="form-select">
           <option v-for="option in selectOptions"
                   :value="option.value">
             {{ option.text }}
@@ -14,7 +14,7 @@
       </div>
     </div>
     <div>
-      <Pagination/>
+   <Pagination/>
     </div>
   </div>
 
@@ -25,27 +25,32 @@
   </div>
 </template>
 <script>
-import {ref} from 'vue'
-
 import Pagination from './pagination/Pagination.vue';
 import Table from "./table/Table.vue";
 import {createNamespacedHelpers} from "vuex";
 import {
-  AC_CHANGE_DATATABLES, CURRENT_PAGE, LIST_DATA, PAGE_SIZE, TOTAL_ITEMS, TOTAL_PAGES, UPDATE_STATE
-
+  AC_CHANGE_DATATABLES, CURRENT_PAGE, LIST_DATA, PAGE_SIZE,
+  TOTAL_PAGES, UPDATE_STATE
 } from "../../../../store/modules/data-table/types.js";
 
-import {UPDATE_DATA} from "../../../../store/modules/delivery-search/data-search/types.js";
 import searchColumns from "./constants/search-columns.js";
 import selectOptionPageSize from "./constants/select-option-page-size.js";
-import {postData} from "../service/HandleAPI.js";
-
-const {mapState: mapDatableState, mapActions: mapDatatableActions} = createNamespacedHelpers('dataTable');
+import {getData, postData} from "../service/HandleAPI.js";
+import {SHOW_LOADING_A} from "../../../../store/modules/loading-spinner/types.js";
+import {notificationError} from "../../../../helpers/notification.js";
+import {NOTIFICATION_ERROR} from "../../../../constants/notification.js";
+const {
+  mapState: mapLoadingState,
+  mapActions: mapLoadingActions
+} = createNamespacedHelpers('loadingSpinner');
+const {
+  mapState: mapDatableState,
+  mapActions: mapDatatableActions
+} = createNamespacedHelpers('dataTable');
 const {
   mapState: mapFormDataSearchState,
   mapActions: mapFormDataSearchActions
 } = createNamespacedHelpers('formDataSearch');
-const {mapState: mapSearchDataState, mapActions: mapSearchDataActions} = createNamespacedHelpers('dataSearch');
 
 export default {
   components: {
@@ -56,29 +61,37 @@ export default {
     ...mapDatatableActions([
       AC_CHANGE_DATATABLES
     ]),
-    ...mapSearchDataActions([
-      UPDATE_DATA
+    ...mapLoadingActions([
+      SHOW_LOADING_A
     ]),
     async handlePageSize() {
       {
-        let dataSelect = {
-          ...this.formDataSearch,
-          'sortType': this.sortOrder,
-          'sortColumn': this.sortColumn,
-          'currentPage': 1,
-          'limit': this.pageS
-        }
-        let result = await postData(import.meta.env.VITE_APP_API_SEARCH, dataSelect);
+        try {
+          this[SHOW_LOADING_A](true)
+          let dataSelect = {
+            ...this.formDataSearch,
+            'sortType': this.sortOrder,
+            'sortColumn': this.sortColumn,
+            'currentPage': 1,
+            'limit': this.pageS
+          }
+          let result = await postData(import.meta.env.VITE_APP_API_SEARCH, dataSelect);
 
-        this[AC_CHANGE_DATATABLES]({
+          this[AC_CHANGE_DATATABLES]({
             type: UPDATE_STATE,
             payload: {
-                [PAGE_SIZE]    : this.pageS,
-                [CURRENT_PAGE] : 1,
-                [TOTAL_PAGES]  : result.totalPages,
-                [LIST_DATA]    : result.resultSearch,
+              [PAGE_SIZE]    : this.pageS,
+              [CURRENT_PAGE] : 1,
+              [TOTAL_PAGES]  : result.totalPages,
+              [LIST_DATA]    : result.resultSearch,
             }
-        })
+          })
+        } catch (e) {
+          notificationError(NOTIFICATION_ERROR)
+          console.error(e)
+        } finally {
+          this[SHOW_LOADING_A](false)
+        }
       }
     },
     onStart() {
@@ -100,24 +113,28 @@ export default {
     }),
     ...mapFormDataSearchState({
       formDataSearch: state => state.formData
+    }),
+    ...mapLoadingState({
+      showLoading: state => state.showLoading
     })
-
-
   },
   setup() {
     let columns = searchColumns;
-
     return {
       columns
     }
   },
   data() {
     let selectOptions = selectOptionPageSize
+    let pageS = 0
 
     return {
-      pageS: '',
+      pageS,
       selectOptions
     };
+  },
+  created() {
+    this.pageS = this.pageS ? this.pageS : this.pageSize;
   }
 }
 

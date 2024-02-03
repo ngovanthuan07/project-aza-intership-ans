@@ -2,7 +2,7 @@ import {
     CURRENT_PAGE,
     LIST_DATA,
     MU_UPDATE_DATATABLES,
-    PAGE_SIZE,
+    PAGE_SIZE, RESET_STATE,
     SORT_COLUMN,
     SORT_ORDER,
     SORT_ORDERS,
@@ -20,7 +20,20 @@ export default {
             case UPDATE_STATE:
                 Object.assign(state, payload);
                 break;
+            case RESET_STATE:
+                Object.assign(state, {
+                    sortOrder: 'ASC',
+                    sortOrders: [],
+                    sortColumn: null,
+                    pageSize: 10,
+                    currentPage: 1,
+                    totalItems: 0,
+                    totalPages: 0,
+                    startPage: 1,
+                    listData: []
+                });
         }
     },
 
 }
+

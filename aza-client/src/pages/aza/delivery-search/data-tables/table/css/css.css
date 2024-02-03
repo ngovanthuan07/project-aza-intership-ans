@@ -1,29 +1,46 @@
-#table-data thead th {
+.tbl-container {
+    overflow-y: auto;
+    height: fit-content;
+    max-height: 66.4vh;
+    margin: 15px 0 15px 0;
+}
+
+#tbl-table thead th {
+    position: sticky;
+    top: -1px;
+    z-index: 1;
+}
+
+#tbl-table thead th {
     background-color: #e3e9ef;
 }
-#table-data thead tr .table-header .table-header-box {
+
+#tbl-table thead tr .tbl-header .tbl-header-box {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-#table-data thead tr th span {
+#tbl-table thead tr th span {
     font-size: 10px;
+    color: #343435;
 }
-#table-data thead tr th .fws-icon {
+#tbl-table thead tr th .fws-icon {
     cursor: pointer;
 }
-
-#table-data tbody tr:nth-of-type(even) td {
+#tbl-table tbody tr {
+    font-size: 13px;
+}
+#tbl-table tbody tr:nth-of-type(even) td {
     background-color: #f8f9fa;
 }
 
 /* Định dạng màu nền cho các dòng lẻ */
-#table-data tbody tr:nth-of-type(ood) td {
+#tbl-table tbody tr:nth-of-type(ood) td {
     background-color: #ffffff;
 }
 
-#table-data tbody tr:hover td{
+#tbl-table tbody tr:hover td{
     background-color: #e3e9ef;
     cursor: pointer;
 }

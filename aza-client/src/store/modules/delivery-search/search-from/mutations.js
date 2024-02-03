@@ -11,18 +11,13 @@ export default {
     [RESET_FORM_DATA](state) {
         state.formData = {
             delivery_cd: null,
-            delivery_nm1: null,
-            delivery_nm2: null,
-            delivery_kn1: null,
-            delivery_kn2: null,
-            prefecture: null,
-            city_nm: null,
-            town_nm: null,
-            apartment_nm: null,
+            delivery_nm: null,
+            delivery_kn: null,
+            address: null,
             tel: null,
             delivery_class_1: null,
             delivery_class_2: null,
-            delivery_class_3: null
-        };
+            delivery_class_3: null,
+        }
     }
 }

@@ -1,4 +1,5 @@
 <template>
+    <Spinner v-if="this.showLoading"/>
     <div class="grow">
         <TheHeader />
         <div class="box-container col-12 d-flex">
@@ -16,6 +17,13 @@ import TheHeader from '../components/TheHeader.vue'
 import Sidebar from '../components/Sidebar.vue'
 import ToolbarBottomSearch from "../pages/aza/delivery-search/toolbar/ToolbarBottomSearch.vue";
 import ToolbarBottomDetail from "../pages/aza/delivery-detail/toolbar/ToolbarBottomDetail.vue";
+import Spinner from "../components/Spinner.vue";
+import {createNamespacedHelpers} from "vuex";
+import {SHOW_LOADING_A} from "../store/modules/loading-spinner/types.js";
+const {
+  mapState: mapLoadingState,
+  mapActions: mapLoadingActions
+} = createNamespacedHelpers('loadingSpinner');
 
 
 export default {
@@ -23,7 +31,13 @@ export default {
         TheHeader,
         Sidebar,
         ToolbarBottomSearch,
-        ToolbarBottomDetail
+        ToolbarBottomDetail,
+        Spinner
+    },
+    methods: {
+      ...mapLoadingActions([
+          SHOW_LOADING_A
+      ])
     },
     computed: {
       toolbarComponent() {
@@ -33,8 +47,16 @@ export default {
           case 'delivery-detail':
             return 'ToolbarBottomDetail';
         }
-      }
-    }
+      },
+      ...mapLoadingState({
+        showLoading: state => state.showLoading
+      })
+    },
+    mounted() {
+      this[SHOW_LOADING_A](true)
+      setTimeout(() => {
+        this[SHOW_LOADING_A](false)
+      }, 300);
+    },
 }
-
 </script>

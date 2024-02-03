@@ -21,10 +21,11 @@
 <script>
 import DataTables from './data-tables/DataTables.vue';
 import FormSearch from "./form/FormSearch.vue";
+
 export default {
     components: {
       DataTables,
-      FormSearch
+      FormSearch,
     },
     methods: {
 

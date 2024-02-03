@@ -87,24 +87,24 @@ export default {
 </script>
 
 <template>
-
-  <table id="table-data" class="table table-bordered table-striped-custom">
-    <thead>
-    <tr>
-      <th v-for="col in columns" scope="col" class="table-header">
-        <div class="table-header-box">
-          <span></span>
-          <span class="text-center">{{ col.title }}</span>
-          <font-awesome-icon :icon="onCheckSort(col.column)" class="fws-icon"
-                             @click="onSortColumn(col.column)"/>
-        </div>
-      </th>
-    </tr>
-    </thead>
-    <tbody>
+  <div class="tbl-container">
+    <table id="tbl-table" class="table table-bordered table-striped-custom" >
+      <thead>
+        <tr>
+          <th v-for="col in columns" scope="col" class="tbl-header">
+            <div class="tbl-header-box">
+              <span></span>
+              <span class="text-center">{{ col.title }}</span>
+              <font-awesome-icon :icon="onCheckSort(col.column)" class="fws-icon"
+                                 @click="onSortColumn(col.column)"/>
+            </div>
+          </th>
+      </tr>
+      </thead>
+      <tbody>
       <tr v-if="listData.length === 0" class="text-center">
         <td :colspan="columns.length">
-          <div class="text-muted">No data available</div>
+          <div class="text-muted">データなし</div>
         </td>
       </tr>
       <tr v-else v-for="data in listData" class="text-center">
@@ -117,8 +117,10 @@ export default {
         <td>{{data.lib_val_nm2_dc}}</td>
         <td>{{data.lib_val_nm3_dc}}t</td>
       </tr>
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
+
 </template>
 
 <style scoped>

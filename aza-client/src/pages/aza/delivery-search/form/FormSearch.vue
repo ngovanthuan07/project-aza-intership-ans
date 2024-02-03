@@ -4,14 +4,24 @@ import {
   ON_RESET_FORM_DATA,
   UPDATE_FORM_DATA
 } from "../../../../store/modules/delivery-search/search-from/types.js";
+import {getData} from "../service/HandleAPI.js";
 
-const { mapState: mapFormDataSearchState, mapActions: mapFormDataSearchActions } = createNamespacedHelpers('formDataSearch');
+const {
+  mapState: mapFormDataSearchState,
+  mapActions: mapFormDataSearchActions
+} = createNamespacedHelpers('formDataSearch');
 
 export default {
   methods: {
     ...mapFormDataSearchActions([
       UPDATE_FORM_DATA, ON_RESET_FORM_DATA
-    ])
+    ]),
+    async getDeliveryClasses() {
+      let deliveryClasses = await getData(import.meta.env.VITE_APP_DELIVERY_CLASS);
+      this.deliveryClassOne = deliveryClasses.deliveryClassOne;
+      this.deliveryClassTwo = deliveryClasses.deliveryClassTwo;
+      this.deliveryClassThree = deliveryClasses.deliveryClassThree;
+    }
   },
   computed: {
     ...mapFormDataSearchState({
@@ -19,9 +29,14 @@ export default {
     }),
 
   },
+  mounted () {
+    this.getDeliveryClasses();
+  },
   data() {
     return {
-
+      deliveryClassOne: [],
+      deliveryClassTwo: [],
+      deliveryClassThree: [],
     };
   },
 }
@@ -80,7 +95,12 @@ export default {
         <label>納入先分類１</label>
         <select v-model="formDataSearch.delivery_class_1" class="form-select">
           <option value=""></option>
-          <option value="999">未設定</option>
+          <option
+              v-if="deliveryClassOne.length > 0"
+              v-for="dc in deliveryClassOne"
+              :value="dc.lib_val_cd">
+            {{ dc.lib_val_nm }}
+          </option>
         </select>
       </div>
     </div>
@@ -90,7 +110,12 @@ export default {
         <label>納入先分類２</label>
         <select v-model="formDataSearch.delivery_class_2" class="form-select">
           <option value=""></option>
-          <option value="999">未設定</option>
+          <option
+              v-if="deliveryClassTwo.length > 0"
+              v-for="dc in deliveryClassTwo"
+              :value="dc.lib_val_cd">
+            {{ dc.lib_val_nm }}
+          </option>
         </select>
       </div>
     </div>
@@ -100,7 +125,12 @@ export default {
         <label>納入先分類３</label>
         <select v-model="formDataSearch.delivery_class_3"  class="form-select">
           <option value=""></option>
-          <option value="999">未設定</option>
+          <option
+              v-if="deliveryClassThree.length > 0"
+              v-for="dc in deliveryClassThree"
+              :value="dc.lib_val_cd">
+            {{ dc.lib_val_nm }}
+          </option>
         </select>
       </div>
     </div>

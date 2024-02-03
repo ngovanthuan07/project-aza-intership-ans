@@ -3,13 +3,33 @@ import { createNamespacedHelpers } from "vuex";
 import axios from "axios";
 import {
   AC_CHANGE_DATATABLES,
-  CURRENT_PAGE, LIST_DATA, TOTAL_ITEMS, TOTAL_PAGES, UPDATE_STATE
+  CURRENT_PAGE, LIST_DATA, RESET_STATE, TOTAL_ITEMS, TOTAL_PAGES, UPDATE_STATE
 } from "../../../../store/modules/data-table/types.js";
 import { postData } from "../service/HandleAPI.js";
+import {SHOW_LOADING_A} from "../../../../store/modules/loading-spinner/types.js";
+import {ON_RESET_FORM_DATA} from "../../../../store/modules/delivery-search/search-from/types.js";
+import formSearch from "../form/FormSearch.vue";
+const {
+  mapState: mapDatableState,
+  mapActions: mapDatatableActions
+} = createNamespacedHelpers('dataTable');
+const {
+  mapState: mapFormDataSearchState,
+  mapActions: mapFormDataSearchActions
+} = createNamespacedHelpers('formDataSearch');
+
+const {
+  mapState: mapLoadingState,
+  mapActions: mapLoadingActions
+} = createNamespacedHelpers('loadingSpinner');
+
+import {
+  notificationSuccess,
+  notificationError
+} from '../../../../helpers/notification.js'
+import {NOTIFICATION_ERROR, NOTIFICATION_SUCCESS} from "../../../../constants/notification.js";
 
 
-const { mapState: mapDatableState, mapActions: mapDatatableActions } = createNamespacedHelpers('dataTable');
-const { mapState: mapFormDataSearchState, mapActions: mapFormDataSearchActions } = createNamespacedHelpers('formDataSearch');
 
 export default {
   components: {
@@ -19,10 +39,18 @@ export default {
     ...mapDatatableActions([
       AC_CHANGE_DATATABLES
     ]),
+    ...mapFormDataSearchActions([
+      ON_RESET_FORM_DATA
+    ]),
+    ...mapLoadingActions([
+      SHOW_LOADING_A
+    ]),
     async handleSearch() {
-      let data = this.createDataObject('search');
-      let result = await postData(import.meta.env.VITE_APP_API_SEARCH, data);
-      this[AC_CHANGE_DATATABLES]({
+      try {
+        this[SHOW_LOADING_A](true)
+        let data = this.createDataObject('search');
+        let result = await postData(import.meta.env.VITE_APP_API_SEARCH, data);
+        this[AC_CHANGE_DATATABLES]({
           type: UPDATE_STATE,
           payload: {
             [CURRENT_PAGE]: 1,
@@ -30,10 +58,18 @@ export default {
             [TOTAL_PAGES]: result.totalPages,
             [LIST_DATA]: result.resultSearch,
           }
-      })
+        })
+      } catch (e) {
+        notificationError(NOTIFICATION_ERROR)
+        console.error(e)
+      } finally {
+        this[SHOW_LOADING_A](false)
+      }
+
     },
     async handleExcel() {
       try {
+        this[SHOW_LOADING_A](true)
         let data = this.createDataObject('excel');
         let filePath = (await postData(import.meta.env.VITE_APP_API_EXCEL, data))?.file_path;
         let fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
@@ -44,8 +80,12 @@ export default {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        notificationError(NOTIFICATION_SUCCESS)
       } catch (e) {
+        notificationError(NOTIFICATION_ERROR)
         console.log('Error download file:', e);
+      } finally {
+        this[SHOW_LOADING_A](false)
       }
     },
     createDataObject(type) {
@@ -61,6 +101,15 @@ export default {
         case 'excel':
           return this.formDataSearch;
       }
+    },
+    handleRedirectDeliveryDetail() {
+      this.$router.push({ name: 'delivery-detail' });
+    },
+    handleResetSearch() {
+      this[SHOW_LOADING_A](true)
+      this[ON_RESET_FORM_DATA]()
+      this[AC_CHANGE_DATATABLES]({type: RESET_STATE, payload: null})
+      this[SHOW_LOADING_A](false)
     }
   },
   computed: {
@@ -74,6 +123,9 @@ export default {
       pageSize: state => state.pageSize,
       listData: state => state.listData
     }),
+    ...mapLoadingState({
+      showLoading: state => state.showLoading
+    })
   },
   data() {
     return {
@@ -92,10 +144,10 @@ export default {
       </button>
     </div>
     <div class="toolbar-bottom-right">
-      <button class="btn">
+      <button class="btn" @click="handleRedirectDeliveryDetail">
         新規追加
       </button>
-      <button class="btn">
+      <button class="btn" @click="handleResetSearch">
         クリア
       </button>
       <button class="btn" @click="handleExcel">

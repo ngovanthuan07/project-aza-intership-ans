@@ -1,0 +1,17 @@
+.table-fixed {
+    overflow-x: scroll;
+    overflow-y: scroll;
+    height: fit-content;
+    max-height: 70vh;
+    margin-top: 40px;
+}
+#tbl-table {
+    max-width: max-content;
+    border-collapse: separate;
+}
+#tbl-table th {
+    position: sticky;
+    top: 8px;
+    background: #e3e9ef;
+    border: 1px solid #ccc;
+}
