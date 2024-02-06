@@ -1,0 +1,71 @@
+.sidebar-container {
+    width: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #97A9B0;
+}
+
+.sidebar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+
+    
+}
+
+.sidebar-container
+.sidebar
+.sidebar-item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.sidebar-container
+.sidebar
+.sidebar-item:hover {
+
+    background-image: linear-gradient(to right, rgba(248, 159, 159, 0.959), rgba(252, 116, 136));;
+
+}
+
+.sidebar-container
+.sidebar
+.active {
+    background-image: linear-gradient(to right, rgba(248, 159, 159, 0.959), rgba(252, 116, 136));;
+
+}
+
+
+.sidebar-container
+.sidebar
+.sidebar-item button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar-container
+.sidebar
+.sidebar-item .sidebar-router {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.sidebar-container
+.sidebar
+.sidebar-item span {
+    padding: 2px 0 0 0;
+    font-size: 10px;
+}

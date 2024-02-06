@@ -8,7 +8,7 @@ export function notificationError(content) {
     })
 }
 export function notificationSuccess(content) {
-    toast.error(content, {
+    toast.success(content, {
         autoClose: 1500
     })
 }

@@ -80,7 +80,7 @@ export default {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        notificationError(NOTIFICATION_SUCCESS)
+        // notificationSuccess(NOTIFICATION_SUCCESS)
       } catch (e) {
         notificationError(NOTIFICATION_ERROR)
         console.log('Error download file:', e);

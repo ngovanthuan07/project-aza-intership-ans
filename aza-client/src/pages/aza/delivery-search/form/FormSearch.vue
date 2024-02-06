@@ -94,7 +94,7 @@ export default {
       <div class="form-group">
         <label>納入先分類１</label>
         <select v-model="formDataSearch.delivery_class_1" class="form-select">
-          <option value=""></option>
+          <option value="0"></option>
           <option
               v-if="deliveryClassOne.length > 0"
               v-for="dc in deliveryClassOne"
@@ -109,7 +109,7 @@ export default {
       <div class="form-group">
         <label>納入先分類２</label>
         <select v-model="formDataSearch.delivery_class_2" class="form-select">
-          <option value=""></option>
+          <option value="0"></option>
           <option
               v-if="deliveryClassTwo.length > 0"
               v-for="dc in deliveryClassTwo"
@@ -124,7 +124,7 @@ export default {
       <div class="form-group">
         <label>納入先分類３</label>
         <select v-model="formDataSearch.delivery_class_3"  class="form-select">
-          <option value=""></option>
+          <option value="0"></option>
           <option
               v-if="deliveryClassThree.length > 0"
               v-for="dc in deliveryClassThree"

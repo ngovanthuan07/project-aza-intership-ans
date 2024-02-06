@@ -16,29 +16,19 @@
         </div>
         <div class="content">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Email address</label>
-                            <input type="email" class="form-control" placeholder="Enter email">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Email address</label>
-                            <input type="email" class="form-control" placeholder="Enter email">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Email address</label>
-                            <input type="email" class="form-control" placeholder="Enter email">
-                        </div>
-                    </div>
-
-                    
-                </div>
+               <FormDetail />
             </div>
         </div>
     </div>
 </template>
+<style scoped>
+@import "./css/css.css";
+</style>
+<script>
+import FormDetail from './form/FormDetail.vue'
+  export default {
+    components: {
+      FormDetail
+    }
+  }
+</script>

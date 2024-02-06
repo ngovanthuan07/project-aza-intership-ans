@@ -1,5 +1,5 @@
 import {
-    GET_CURRENT_PAGE,
+    GET_CURRENT_PAGE, GET_PAGE_HIDDEN,
     GET_PAGE_SIZE, GET_SORT_COLUMN,
     GET_SORT_ORDER,
     GET_SORT_ORDERS,
@@ -16,5 +16,6 @@ export default {
     [GET_CURRENT_PAGE]: (state) => state.currentPage,
     [GET_TOTAL_ITEMS]: (state) => state.totalItems,
     [GET_TOTAL_PAGES]: (state) => state.totalPages,
-    [GET_START_PAGE]: (state) => state.startPage
+    [GET_START_PAGE]: (state) => state.startPage,
+    [GET_PAGE_HIDDEN]: (state) => state.showPageHidden,
 }

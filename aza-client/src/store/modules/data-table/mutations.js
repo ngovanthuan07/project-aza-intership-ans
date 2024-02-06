@@ -18,6 +18,7 @@ export default {
         const payload = action.payload;
         switch (type) {
             case UPDATE_STATE:
+                console.log(payload)
                 Object.assign(state, payload);
                 break;
             case RESET_STATE:

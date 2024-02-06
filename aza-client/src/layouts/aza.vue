@@ -1,8 +1,8 @@
 <template>
-    <Spinner v-if="this.showLoading"/>
-    <div class="grow">
-        <TheHeader />
-        <div class="box-container col-12 d-flex">
+    <div class="wrapper">
+      <Spinner v-if="this.showLoading"/>
+      <TheHeader />
+        <div class="content-wrapper col-12 d-flex">
             <Sidebar />
             <router-view></router-view>
         </div>
@@ -11,7 +11,9 @@
     </div>
 
 </template>
-
+<style scoped>
+@import "../assets/css/aza.css";
+</style>
 <script>
 import TheHeader from '../components/TheHeader.vue'
 import Sidebar from '../components/Sidebar.vue'

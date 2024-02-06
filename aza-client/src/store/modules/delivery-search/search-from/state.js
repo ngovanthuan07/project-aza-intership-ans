@@ -1,12 +1,12 @@
 export default {
     formData: {
-        delivery_cd: null,
-        delivery_nm: null,
-        delivery_kn: null,
-        address: null,
-        tel: null,
-        delivery_class_1: null,
-        delivery_class_2: null,
-        delivery_class_3: null,
+        delivery_cd: '',
+        delivery_nm: '',
+        delivery_kn: '',
+        address: '',
+        tel: '',
+        delivery_class_1: 0,
+        delivery_class_2: 0,
+        delivery_class_3: 0,
     }
 }

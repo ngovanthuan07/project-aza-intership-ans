@@ -61,7 +61,6 @@ class DeliveryExport implements FromCollection, WithHeadings, ShouldAutoSize, Wi
         ];
 
         return [
-            // Căn giữa tiêu đề
             1    => [
                 'alignment' => [
                     'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -73,11 +72,9 @@ class DeliveryExport implements FromCollection, WithHeadings, ShouldAutoSize, Wi
                 ],
                 'borders' => $styleArray['borders'],
             ],
-            // Áp dụng viền cho các hàng dữ liệu
             2    => [
                 'borders' => $styleArray['borders'],
             ],
-            // Áp dụng viền cho phạm vi chứa dữ liệu
             'A2:' . $highestColumn . $highestRow => [
                 'borders' => $styleArray['borders'],
             ],

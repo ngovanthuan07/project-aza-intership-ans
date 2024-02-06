@@ -1,9 +1,9 @@
 .toolbar-bottom {
+    position: fixed;
     width: 100%;
     height: 50px;
     background-color: #fff;
-    border-top: 1px solid #fff;
-    position: relative;
+    border: 1px solid #dddddd;
     bottom: 0;
     z-index: 1000;
     display: flex;
@@ -25,6 +25,16 @@
     color: #43C5F4;
     margin-left: 10px;
 }
+.toolbar-bottom .toolbar-bottom-right .btnDelete {
+    border: 1px solid #ffffff;
+    color: #ffffff;
+}
+.toolbar-bottom .toolbar-bottom-right .btnRegister {
+    border: 1px solid #ffffff;
+    color: #ffffff;
+}
+
+
 
 .toolbar-bottom .toolbar-bottom-right button:hover {
     background-color: #43C5F4;

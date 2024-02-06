@@ -9,15 +9,20 @@
         </div>
         <div class="content">
           <div class="container-fluid">
-            <FormSearch />
+            <div class="container-fluid">
+              <FormSearch />
 
-            <DataTables />
+              <DataTables />
+            </div>
+
           </div>
 
         </div>
     </div>
 </template>
-
+<style scoped>
+@import "./css/css.css";
+</style>
 <script>
 import DataTables from './data-tables/DataTables.vue';
 import FormSearch from "./form/FormSearch.vue";

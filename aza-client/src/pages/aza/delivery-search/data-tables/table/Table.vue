@@ -109,13 +109,13 @@ export default {
       </tr>
       <tr v-else v-for="data in listData" class="text-center">
         <td>{{data.delivery_cd}}</td>
-        <td>{{data.delivery_nm1 + data.delivery_nm2}}</td>
-        <td>{{data.delivery_kn1 + data.delivery_kn1}}</td>
+        <td>{{data.delivery_nm}}</td>
+        <td>{{data.delivery_kn}}</td>
         <td>{{data.address}}</td>
         <td>{{data.tel}}</td>
-        <td>{{data.lib_val_nm1_dc}}</td>
-        <td>{{data.lib_val_nm2_dc}}</td>
-        <td>{{data.lib_val_nm3_dc}}t</td>
+        <td>{{data.delivery_class_1}}</td>
+        <td>{{data.delivery_class_2}}</td>
+        <td>{{data.delivery_class_3}}t</td>
       </tr>
       </tbody>
     </table>

@@ -7,5 +7,6 @@ export default {
     totalItems: 0,
     totalPages: 0,
     startPage: 1,
+    showPageHidden: false,
     listData: []
 }

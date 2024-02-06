@@ -1,0 +1,14 @@
+.header {
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #fbaa93;
+    background-image: linear-gradient(to right, rgba(248, 159, 159, 0.959), rgba(252,116,136))
+}
+.header .right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 20px;
+}

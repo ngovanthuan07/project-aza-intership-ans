@@ -20,12 +20,15 @@ class SLivValController extends Controller
         $deliveryClassTwo = $statement->fetchAll(PDO::FETCH_OBJ);
         $statement->nextRowset();
         $deliveryClassThree = $statement->fetchAll(PDO::FETCH_OBJ);
+        $statement->nextRowset();
+        $prefectures = $statement->fetchAll(PDO::FETCH_OBJ);
 
         return response()->json(
             [
                 'deliveryClassOne' =>  $deliveryClassOne,
                 'deliveryClassTwo' =>  $deliveryClassTwo,
                 'deliveryClassThree' => $deliveryClassThree,
+                'prefectures' => $prefectures
             ]
         );
     }

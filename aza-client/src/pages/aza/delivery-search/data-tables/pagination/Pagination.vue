@@ -2,27 +2,30 @@
   <nav v-if="totalPages > 0" aria-label="Page navigation pagination-nav">
     <ul class="pagination">
       <li class="page-item">
-        <button @click="onStartPage()" class="page-link" href="#" aria-label="Previous">
+        <button @click="onStartPage()" :disabled="isUnFirstActive(this.currentPage)" :class="{ 'un-active': isUnFirstActive(this.currentPage) }" class="page-link" href="#" aria-label="Previous">
           <span aria-hidden="true">&lt;&lt;</span>
         </button>
       </li>
       <li class="page-item">
-        <button @click="onPrevPage()" class="page-link" href="#" aria-label="Previous">
+        <button @click="onPrevPage()" :disabled="isUnFirstActive(this.currentPage)"  :class="{ 'un-active': isUnFirstActive(this.currentPage) }"  class="page-link" href="#" aria-label="Previous">
           <span aria-hidden="true">&lt;</span>
         </button>
       </li>
       <li class="page-item" v-for="(page) in filteredPagination">
-        <button @click="onChangePage(page)" class="page-link" :class="{ 'active': isActive(page) }" href="#">
-          <span> {{ page > 0 ? page : '...' }}</span>
+        <button v-if="page > 0" @click="onChangePage(page)" class="page-link" :class="{ 'active': isActive(page) }" href="#">
+          <span v-if="page > 0"> {{page}} </span>
         </button>
+        <div class="page-hidden" v-if="page < 0" @click="onShowFirstPage(true)">
+          <span> ... </span>
+        </div>
       </li>
       <li class="page-item">
-        <button @click="onNextPage()" class="page-link" href="#" aria-label="Next">
+        <button @click="onNextPage()" :disabled="isUnEndActive(this.currentPage)" :class="{ 'un-active': isUnEndActive(this.currentPage) }"  class="page-link" href="#" aria-label="Next">
           <span aria-hidden="true">&gt;</span>
         </button>
       </li>
       <li class="page-item">
-        <button @click="onEndPage()" class="page-link" href="#" aria-label="Next">
+        <button @click="onEndPage()" :disabled="isUnEndActive(this.currentPage)" :class="{ 'un-active': isUnEndActive(this.currentPage) }"  class="page-link" href="#" aria-label="Next">
           <span aria-hidden="true">&gt;&gt;</span>
         </button>
       </li>
@@ -35,7 +38,7 @@ import {handListPage} from '../../../../../helpers/pagination.js';
 import {
   AC_CHANGE_DATATABLES,
   CURRENT_PAGE,
-  LIST_DATA,
+  LIST_DATA, SHOW_PAGE_HIDDEN,
   UPDATE_STATE
 } from "../../../../../store/modules/data-table/types.js";
 import {createNamespacedHelpers} from 'vuex';
@@ -69,7 +72,17 @@ export default {
       }
     },
     onEndPage() {
+      console.log(this.totalPages)
       this.changePage(this.totalPages);
+    },
+     onShowFirstPage(value) {
+      console.log(value)
+       this[AC_CHANGE_DATATABLES]({
+        type: UPDATE_STATE,
+        payload: {
+          [SHOW_PAGE_HIDDEN]: value
+        }
+      })
     },
     async changePage(page) {
       try {
@@ -86,6 +99,7 @@ export default {
           payload: {
             [CURRENT_PAGE]  : page,
             [LIST_DATA]     : result.resultSearch,
+            [SHOW_PAGE_HIDDEN]: false
           }
         });
         console.log('Change current page successful');
@@ -94,8 +108,13 @@ export default {
       }
     },
     isActive(page) {
-      let curP = this.currentPage * 1;
-      return curP === page ? true : false;
+      return this.currentPage === page ? true : false;
+    },
+    isUnFirstActive() {
+      return this.currentPage === this.startPage ? true : false;
+    },
+    isUnEndActive() {
+      return this.currentPage === this.totalPages ? true : false;
     }
   },
   computed: {
@@ -105,13 +124,14 @@ export default {
       currentPage:  state => state.currentPage,
       pageSize:   state => state.pageSize,
       totalPages: state => state.totalPages,
-      startPage: state => state.startPage
+      startPage: state => state.startPage,
+      showPageHidden: state => state.showPageHidden
     }),
     ...mapFormDataSearchState({
       formDataSearch: state => state.formData
     }),
     filteredPagination() {
-      return handListPage(this.startPage, this.totalPages, this.currentPage);
+      return handListPage(this.startPage, this.totalPages, this.currentPage, this.showPageHidden);
     }
   },
   setup(props) {
@@ -119,7 +139,9 @@ export default {
     return {};
   },
   data() {
-    return {}
+    return {
+
+    }
   }
 };
 </script>

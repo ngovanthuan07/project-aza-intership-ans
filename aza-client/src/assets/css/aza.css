@@ -1,0 +1,10 @@
+.wrapper {
+    
+}
+
+.content-wrapper {
+    width:100%;
+    margin: 0;
+    overflow: hidden;
+    height: calc(100vh - 50px - 50px);
+}
