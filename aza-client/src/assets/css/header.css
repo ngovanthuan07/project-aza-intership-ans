@@ -4,7 +4,7 @@
     flex-direction: column;
     justify-content: center;
     background-color: #fbaa93;
-    background-image: linear-gradient(to right, rgba(248, 159, 159, 0.959), rgba(252,116,136))
+    background-image: linear-gradient(to right, #fbaa93, #fa9c90, #fb8e8d, #fc7488);
 }
 .header .right {
     display: flex;

@@ -15,7 +15,7 @@
         <button v-if="page > 0" @click="onChangePage(page)" class="page-link" :class="{ 'active': isActive(page) }" href="#">
           <span v-if="page > 0"> {{page}} </span>
         </button>
-        <div class="page-hidden" v-if="page < 0" @click="onShowFirstPage(true)">
+        <div class="page-hidden" v-if="page < 0">
           <span> ... </span>
         </div>
       </li>
@@ -38,21 +38,28 @@ import {handListPage} from '../../../../../helpers/pagination.js';
 import {
   AC_CHANGE_DATATABLES,
   CURRENT_PAGE,
-  LIST_DATA, SHOW_PAGE_HIDDEN,
+  LIST_DATA,
   UPDATE_STATE
 } from "../../../../../store/modules/data-table/types.js";
 import {createNamespacedHelpers} from 'vuex';
 import {postData} from "../../service/HandleAPI.js";
+import {SHOW_LOADING_A} from "../../../../../store/modules/loading-spinner/types.js";
 
 const {mapState: mapDatableState, mapActions: mapDatatableActions} = createNamespacedHelpers('dataTable');
 const { mapState: mapFormDataSearchState, mapActions: mapFormDataSearchActions } = createNamespacedHelpers('formDataSearch');
-
+const {
+  mapState: mapLoadingState,
+  mapActions: mapLoadingActions
+} = createNamespacedHelpers('loadingSpinner');
 
 export default {
   props: {},
   methods: {
     ...mapDatatableActions([
       AC_CHANGE_DATATABLES
+    ]),
+    ...mapLoadingActions([
+      SHOW_LOADING_A
     ]),
     onChangePage(page) {
       if (page === -1 || page === this.currentPage) return;
@@ -75,17 +82,9 @@ export default {
       console.log(this.totalPages)
       this.changePage(this.totalPages);
     },
-     onShowFirstPage(value) {
-      console.log(value)
-       this[AC_CHANGE_DATATABLES]({
-        type: UPDATE_STATE,
-        payload: {
-          [SHOW_PAGE_HIDDEN]: value
-        }
-      })
-    },
     async changePage(page) {
       try {
+        this[SHOW_LOADING_A](true)
         let dataSelect = {
           ...this.formDataSearch,
           'sortType'    : this.sortOrder,
@@ -99,12 +98,13 @@ export default {
           payload: {
             [CURRENT_PAGE]  : page,
             [LIST_DATA]     : result.resultSearch,
-            [SHOW_PAGE_HIDDEN]: false
           }
         });
         console.log('Change current page successful');
       } catch (error) {
         console.error('Error changing current page:', error);
+      } finally {
+        this[SHOW_LOADING_A](false)
       }
     },
     isActive(page) {
@@ -131,7 +131,7 @@ export default {
       formDataSearch: state => state.formData
     }),
     filteredPagination() {
-      return handListPage(this.startPage, this.totalPages, this.currentPage, this.showPageHidden);
+      return handListPage(this.startPage, this.totalPages, this.currentPage);
     }
   },
   setup(props) {

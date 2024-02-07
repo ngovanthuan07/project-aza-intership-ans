@@ -1,11 +1,14 @@
 <template>
-    <div class="content-container ">
+    <div class="content-container">
         <div class="content-header">
             <div class="content-header-left">
                 <div class="content-header-item content-header-item-left">
                     納入先一覧
                 </div>
             </div>
+        </div>
+        <div class="condition-heading js-fix-before-header-panel">
+
         </div>
         <div class="content">
           <div class="container-fluid">

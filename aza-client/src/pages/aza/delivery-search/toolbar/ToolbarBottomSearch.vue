@@ -139,21 +139,21 @@ export default {
 <template>
   <div class="toolbar-bottom">
     <div class="toolbar-bottom-left">
-      <button type="button" class="btn">
+      <button class="btn" tabindex="105">
         <font-awesome-icon :icon="['fas', 'caret-left']" /> 戻る
       </button>
     </div>
     <div class="toolbar-bottom-right">
-      <button class="btn" @click="handleRedirectDeliveryDetail">
+      <button class="btn" @click="handleRedirectDeliveryDetail" tabindex="101">
         新規追加
       </button>
-      <button class="btn" @click="handleResetSearch">
+      <button class="btn" @click="handleResetSearch" tabindex="102">
         クリア
       </button>
-      <button class="btn" @click="handleExcel">
+      <button class="btn" @click="handleExcel" tabindex="103">
         EXCEL
       </button>
-      <button class="btn btn-outline-primary" @click="handleSearch">
+      <button class="btn" @click="handleSearch" tabindex="104">
         <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
       </button>
     </div>

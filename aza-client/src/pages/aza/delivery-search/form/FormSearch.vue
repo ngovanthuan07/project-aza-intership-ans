@@ -48,19 +48,25 @@ export default {
     <div class="col-md-2">
       <!-- h3 -->
       <div class="form-group">
-        <label>納入先コード</label>
+        <label class="form-label">納入先コード</label>
         <input
             v-model="formDataSearch.delivery_cd"
             type="text"
+            maxlength="6"
+            tabindex="11"
+            data-maxlength="6"
             class="form-control">
       </div>
     </div>
     <!-- h4 -->
     <div class="col-md-2">
       <div class="form-group">
-        <label>納入先名</label>
+        <label class="form-label">納入先名</label>
         <input v-model="formDataSearch.delivery_nm"
                type="text"
+               maxlength="90"
+               tabindex="12"
+               data-maxlength="90"
                class="form-control">
       </div>
     </div>
@@ -68,22 +74,37 @@ export default {
     <!-- h5 -->
     <div class="col-md-2">
       <div class="form-group">
-        <label>フリガナ</label>
-        <input v-model="formDataSearch.delivery_kn" type="text" class="form-control">
+        <label class="form-label">フリガナ</label>
+        <input v-model="formDataSearch.delivery_kn"
+               type="text"
+               maxlength="140"
+               tabindex="13"
+               data-maxlength="140"
+               class="form-control">
       </div>
     </div>
     <!-- h6 -->
     <div class="col-md-4">
       <div class="form-group">
-        <label>住所</label>
-        <input v-model="formDataSearch.address" type="text" class="form-control">
+        <label class="form-label">住所</label>
+        <input v-model="formDataSearch.address"
+               type="text"
+               maxlength="400"
+               tabindex="14"
+               data-maxlength="400"
+               class="form-control">
       </div>
     </div>
     <!-- h7 -->
     <div class="col-md-2">
       <div class="form-group">
-        <label>電話番号</label>
-        <input v-model="formDataSearch.tel" type="text" class="form-control">
+        <label class="form-label">電話番号</label>
+        <input v-model="formDataSearch.tel"
+               type="text"
+               maxlength="20"
+               tabindex="15"
+               data-maxlength="20"
+               class="form-control">
       </div>
     </div>
   </div>
@@ -92,8 +113,10 @@ export default {
     <!-- h8 -->
     <div class="col-md-2">
       <div class="form-group">
-        <label>納入先分類１</label>
-        <select v-model="formDataSearch.delivery_class_1" class="form-select">
+        <label class="form-label">納入先分類１</label>
+        <select
+            v-model="formDataSearch.delivery_class_1"
+            class="form-select form-control">
           <option value="0"></option>
           <option
               v-if="deliveryClassOne.length > 0"
@@ -107,8 +130,9 @@ export default {
     <!-- h9 -->
     <div class="col-md-2">
       <div class="form-group">
-        <label>納入先分類２</label>
-        <select v-model="formDataSearch.delivery_class_2" class="form-select">
+        <label class="form-label">納入先分類２</label>
+        <select v-model="formDataSearch.delivery_class_2"
+                class="form-select form-control">
           <option value="0"></option>
           <option
               v-if="deliveryClassTwo.length > 0"
@@ -122,8 +146,10 @@ export default {
     <!-- h10 -->
     <div class="col-md-2">
       <div class="form-group">
-        <label>納入先分類３</label>
-        <select v-model="formDataSearch.delivery_class_3"  class="form-select">
+        <label class="form-label">納入先分類３</label>
+        <select
+            v-model="formDataSearch.delivery_class_3"
+            class="form-select form-control">
           <option value="0"></option>
           <option
               v-if="deliveryClassThree.length > 0"

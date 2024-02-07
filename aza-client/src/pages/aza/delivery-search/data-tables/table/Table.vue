@@ -102,11 +102,10 @@ export default {
       </tr>
       </thead>
       <tbody>
-      <tr v-if="listData.length === 0" class="text-center">
-        <td :colspan="columns.length">
-          <div class="text-muted">データなし</div>
-        </td>
+      <tr v-if="listData.length === 0">
+        <td colspan="8" class="text-center dataTables_empty" data-original-title="">&nbsp;</td>
       </tr>
+    
       <tr v-else v-for="data in listData" class="text-center">
         <td>{{data.delivery_cd}}</td>
         <td>{{data.delivery_nm}}</td>

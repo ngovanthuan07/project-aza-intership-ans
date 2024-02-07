@@ -1,16 +1,17 @@
 <template>
   <div class="box-top">
     <div class="box-select-page">
-      <div v-if="totalPages > 0" >
-        <select v-model="pageS"  @change="handlePageSize" class="form-select">
-          <option v-for="option in selectOptions"
-                  :value="option.value">
-            {{ option.text }}
-          </option>
-        </select>
-      </div>
-      <div v-if="this.totalItems" class="text-page">
+      <select v-model="pageS"  @change="handlePageSize" class="form-select form-control" tabindex="16">
+        <option v-for="option in selectOptions"
+                :value="option.value">
+          {{ option.text }}
+        </option>
+      </select>
+      <div v-if="this.totalItems" class="text-page total-record">
         <span> {{ this.totalItems }} 件中 {{ this.onStart() }} - {{ this.onLast() }} 件</span>
+      </div>
+      <div v-if="this.totalItems === 0" class="text-page total-record">
+        <span> 検索結果 </span>
       </div>
     </div>
     <div>
@@ -29,7 +30,7 @@ import Pagination from './pagination/Pagination.vue';
 import Table from "./table/Table.vue";
 import {createNamespacedHelpers} from "vuex";
 import {
-  AC_CHANGE_DATATABLES, CURRENT_PAGE, LIST_DATA, PAGE_SIZE,
+  AC_CHANGE_DATATABLES, CURRENT_PAGE, LIST_DATA, PAGE_SIZE, TOTAL_ITEMS,
   TOTAL_PAGES, UPDATE_STATE
 } from "../../../../store/modules/data-table/types.js";
 
@@ -81,9 +82,10 @@ export default {
             type: UPDATE_STATE,
             payload: {
               [PAGE_SIZE]    : this.pageS,
-              [CURRENT_PAGE] : 1,
-              [TOTAL_PAGES]  : result.totalPages,
-              [LIST_DATA]    : result.resultSearch,
+              [CURRENT_PAGE]: 1,
+              [TOTAL_ITEMS]: result.totalItems,
+              [TOTAL_PAGES]: result.totalPages,
+              [LIST_DATA]: result.resultSearch,
             }
           })
         } catch (e) {

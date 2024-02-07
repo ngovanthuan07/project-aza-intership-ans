@@ -21,21 +21,19 @@ export const handListPageFull = (minPage, maxPage, currentPage, pages = 7) => {
    return [...scopeFirst.slice(0, 1), -1, backCurrentPage, currentPage, forwardCurrentPage,-1,  ...scopeLast.splice(-1)]
 }
 
-export const handListPage = (minPage, maxPage, currentPage, firstPage) => {
+export const handListPage = (minPage, maxPage, currentPage) => {
     if(minPage === maxPage) {
         return [minPage]
     }
     if(minPage === maxPage - 1) {
         return [minPage, maxPage]
     }
-    if(firstPage) {
-        return [minPage, minPage + 1, minPage + 2]
-    }
+
     if(currentPage === minPage) {
-        return [minPage, -1, maxPage]
+        return [minPage, minPage + 1, -1, maxPage]
     }
     if(currentPage === maxPage) {
-        return [ maxPage -2, maxPage -1, maxPage]
+        return [minPage, -1, maxPage -1, maxPage]
     }
 
     return [currentPage - 1, currentPage, currentPage + 1]

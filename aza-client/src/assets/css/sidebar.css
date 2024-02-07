@@ -1,25 +1,26 @@
 .sidebar-container {
     width: 70px;
+    height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #97A9B0;
+    background-color: #97a9b0;
 }
 
 .sidebar {
     width: 100%;
+    height: auto;
     display: flex;
     justify-content: center;
     align-content: center;
     align-items: center;
-
-    
 }
 
 .sidebar-container
 .sidebar
 .sidebar-item {
     width: 100%;
+    margin-top: 0px !important;
     display: flex;
     justify-content: center;
     align-content: center;
@@ -31,16 +32,13 @@
 .sidebar-container
 .sidebar
 .sidebar-item:hover {
-
-    background-image: linear-gradient(to right, rgba(248, 159, 159, 0.959), rgba(252, 116, 136));;
-
+    background: transparent linear-gradient(90deg, #FBAA93 0%, #FE5E84 100%) 0 0 no-repeat !important;
 }
 
 .sidebar-container
 .sidebar
 .active {
-    background-image: linear-gradient(to right, rgba(248, 159, 159, 0.959), rgba(252, 116, 136));;
-
+    background: transparent linear-gradient(90deg, #FBAA93 0%, #FE5E84 100%) 0 0 no-repeat !important;
 }
 
 
@@ -67,5 +65,15 @@
 .sidebar
 .sidebar-item span {
     padding: 2px 0 0 0;
+    font-family: 'Noto Sans', serif;
     font-size: 10px;
+    font-weight: 500;
+}
+
+.sidebar-container
+.sidebar
+.sidebar-item .sidebar-icon {
+    margin: 3px auto;
+    width: 12px;
+    height: 15px;
 }

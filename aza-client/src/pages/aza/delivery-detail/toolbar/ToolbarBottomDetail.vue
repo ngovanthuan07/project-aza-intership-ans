@@ -38,16 +38,16 @@ export default {
       </button>
     </div>
     <div class="toolbar-bottom-right">
-      <button class="btn btn-danger btnDelete" @click="onDelete">
+      <button class="btn btn-delete" @click="onDelete">
         削除
       </button>
-      <button class="btn" @click="onCopy">
+      <button class="btn btn-copy" @click="onCopy">
         複写
       </button>
-      <button class="btn" @click="onNew">
+      <button class="btn btn-new" @click="onNew">
         新規
       </button>
-      <button class="btn btn-primary btnRegister" @click="onRegister">
+      <button class="btn btn-register" @click="onRegister">
         登録
       </button>
     </div>

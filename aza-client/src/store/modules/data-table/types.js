@@ -17,7 +17,6 @@ export const CURRENT_PAGE = 'currentPage'
 export const TOTAL_ITEMS = 'totalItems'
 export const TOTAL_PAGES = 'totalPages'
 export const START_PAGE = 'startPage'
-export const SHOW_PAGE_HIDDEN = 'showPageHidden';
 export const LIST_DATA = 'listData'
 export const UPDATE_STATE = 'UPDATE_STATE'
 export const RESET_STATE = 'RESET_STATE'

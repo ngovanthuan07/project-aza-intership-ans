@@ -1,13 +1,36 @@
 .content .container-fluid .row .form-group label {
     font-size: 10px;
 }
-
-.content .container-fluid .row .form-group input {
-    height: 27px;
-    border-radius: 3px;
-    font-size: 10px;
+.form-label {
+    font-family: 'Noto Sans', serif;
+    font-size: 12px !important;;
+    font-weight: 500;
+    color: #333333;
+    margin-bottom: 0;
 }
-
+.form-control {
+    display: block;
+    border-color: #D0D6DA !important;
+    font-family: 'Noto Sans', serif;
+    font-weight: 500;
+    width: 100%;
+    padding: 0px 6px;
+    font-size: 13px;
+    line-height: 1.5384616;
+    color: #333333;
+    background-color: #fff;
+    border-radius: 3px;
+}
+input.form-control,
+select.form-control {
+    height: 28px;
+}
+.form-control:focus {
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-color: #2196F3 !important;
+}
 .content .container-fluid .row .form-group .form-select {
-    font-size: 9px;
+    text-transform: none;
 }

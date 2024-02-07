@@ -17,5 +17,4 @@ export default {
     [GET_TOTAL_ITEMS]: (state) => state.totalItems,
     [GET_TOTAL_PAGES]: (state) => state.totalPages,
     [GET_START_PAGE]: (state) => state.startPage,
-    [GET_PAGE_HIDDEN]: (state) => state.showPageHidden,
 }

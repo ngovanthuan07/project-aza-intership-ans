@@ -14,6 +14,19 @@
 .toolbar-bottom .toolbar-bottom-left {
     padding-left: 10px;
 }
+.toolbar-bottom .toolbar-bottom-left button {
+    font-family: 'Noto Sans', serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #333333;
+    border: 0;
+    outline: 0;
+}
+.toolbar-bottom .toolbar-bottom-left button:focus {
+    border: 1px solid #00B0F0;
+    border-radius: 1px;
+    outline: none;
+}
 .toolbar-bottom .toolbar-bottom-right {
     padding-right: 20px;
 }
@@ -26,7 +39,10 @@
     margin-left: 10px;
 }
 
-.toolbar-bottom .toolbar-bottom-right button:hover {
-    background-color: #43C5F4;
-    color: white;
+.toolbar-bottom .toolbar-bottom-right button:hover,
+.toolbar-bottom .toolbar-bottom-right button:focus {
+    border: 1px solid #00B0F0;
+    background-color: #BDE6FB;
+    color: #00B0F0;
+    outline: none;
 }
