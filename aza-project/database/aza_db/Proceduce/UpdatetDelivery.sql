@@ -5,28 +5,28 @@ IF OBJECT_ID('dbo.[usp_UpdateDelivery]', 'P') IS NOT NULL
     DROP PROCEDURE [dbo].[usp_UpdateDelivery]
 GO
 CREATE PROCEDURE [dbo].[usp_UpdateDelivery]
-    @p_delivery_cd nvarchar(6),
-    @p_delivery_nm1 varchar(80),
-    @p_delivery_kn1 varchar(80),
-    @p_delivery_nm2 varchar(80),
-    @p_delivery_kn2 varchar(80),
-    @p_zip_cd nvarchar(8),
-    @p_prefecture_cd nvarchar(2),
-    @p_city_nm nvarchar(24),
-    @p_town_nm nvarchar(32),
-    @p_apartment_nm nvarchar(32),
-    @p_address1 nvarchar(200),
-    @p_address2 nvarchar(200),
-    @p_tel nvarchar(20),
-    @p_fax nvarchar(20),
-    @p_delivery_class_1 nvarchar(3),
-    @p_delivery_class_2 nvarchar(3),
-    @p_delivery_class_3 nvarchar(3),
-    @p_remark nvarchar(1000),
-    @p_cre_user nvarchar(50),
-    @p_cre_prg nvarchar(50),
-    @p_cre_ip nvarchar(20),
-    @p_cre_date datetime2(7)
+        @P_delivery_cd               NVARCHAR(6)
+,       @P_delivery_nm1              VARCHAR(80)
+,       @P_delivery_kn1              VARCHAR(80)
+,       @P_delivery_nm2              VARCHAR(80)
+,       @P_delivery_kn2              VARCHAR(80)
+,       @P_zip_cd                    NVARCHAR(8)
+,       @P_prefecture_cd             NVARCHAR(2)
+,       @P_city_nm                   NVARCHAR(24)
+,       @P_town_nm                   NVARCHAR(32)
+,       @P_apartment_nm              NVARCHAR(32)
+,       @P_address1                  NVARCHAR(200)
+,       @P_address2                  NVARCHAR(200)
+,       @P_tel                       NVARCHAR(20)
+,       @P_fax                       NVARCHAR(20)
+,       @P_delivery_class_1          NVARCHAR(3)
+,       @P_delivery_class_2          NVARCHAR(3)
+,       @P_delivery_class_3          NVARCHAR(3)
+,       @P_remark                    NVARCHAR(1000)
+,       @P_upd_user                  NVARCHAR(50)
+,       @P_upd_prg                   NVARCHAR(50)
+,       @P_upd_ip                    NVARCHAR(20)
+,       @P_upd_date                  DATETIME2(7)
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -34,35 +34,30 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION
         
-         UPDATE [dbo].[m_delivery]
+        UPDATE [dbo].[m_delivery]
         SET
-            [delivery_nm1] = @p_delivery_nm1,
-            [delivery_kn1] = @p_delivery_kn1,
-            [delivery_nm2] = @p_delivery_nm2,
-            [delivery_kn2] = @p_delivery_kn2,
-            [zip_cd] = @p_zip_cd,
-            [prefecture_cd] = @p_prefecture_cd,
-            [city_nm] = @p_city_nm,
-            [town_nm] = @p_town_nm,
-            [apartment_nm] = @p_apartment_nm,
-            [address1] = @p_address1,
-            [address2] = @p_address2,
-            [tel] = @p_tel,
-            [fax] = @p_fax,
-            [delivery_class_1] = @p_delivery_class_1,
-            [delivery_class_2] = @p_delivery_class_2,
-            [delivery_class_3] = @p_delivery_class_3,
-            [remark] = @p_remark,
-            [upd_user] = @p_upd_user,
-            [upd_prg] = @p_upd_prg,
-            [upd_ip] = @p_upd_ip,
-            [upd_date] = @p_upd_date,
-            [del_user] = @p_del_user,
-            [del_prg] = @p_del_prg,
-            [del_ip] = @p_del_ip,
-            [del_date] = @p_del_date,
-            [del_flg] = @p_del_flg
-        WHERE [delivery_cd] = @p_delivery_cd;
+              [delivery_nm1]                  =     @P_delivery_nm1
+        ,     [delivery_kn1]                  =     @P_delivery_kn1
+        ,     [delivery_nm2]                  =     @P_delivery_nm2
+        ,     [delivery_kn2]                  =     @P_delivery_kn2
+        ,     [zip_cd]                        =     @P_zip_cd
+        ,     [prefecture_cd]                 =     @P_prefecture_cd
+        ,     [city_nm]                       =     @P_city_nm
+        ,     [town_nm]                       =     @P_town_nm
+        ,     [apartment_nm]                  =     @P_apartment_nm
+        ,     [address1]                      =     @P_address1
+        ,     [address2]                      =     @P_address2
+        ,     [tel]                           =     @P_tel
+        ,     [fax]                           =     @P_fax
+        ,     [delivery_class_1]              =     @P_delivery_class_1
+        ,     [delivery_class_2]              =     @P_delivery_class_2
+        ,     [delivery_class_3]              =     @P_delivery_class_3
+        ,     [remark]                        =     @P_remark
+        ,     [upd_user]                      =     @P_upd_user
+        ,     [upd_prg]                       =     @P_upd_prg
+        ,     [upd_ip]                        =     @P_upd_ip
+        ,     [upd_date]                      =     @P_upd_date
+        WHERE [delivery_cd]                   =     @P_delivery_cd;
    
         COMMIT TRANSACTION
     END TRY

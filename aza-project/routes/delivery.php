@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Delivery\DeliveryController;
 use App\Http\Controllers\Delivery\Search\ExcelController;
 use App\Http\Controllers\Delivery\Search\SearchController;
 use App\Http\Controllers\Delivery\SLivValController;
@@ -16,6 +17,11 @@ Route::prefix('delivery-search')->group(function () {
 
 Route::prefix('s_lib-val')->group(function () {
     Route::get('/display-search', [SLivValController::class, 'displaySearch'])->name('s_lib-val.display-search');
+});
+
+
+Route::prefix('delivery')->group(function () {
+    Route::post('/get-by-delivery_cd', [DeliveryController::class, 'getByDeliveryCd'])->name('delivery.getByDeliveryCd');
 });
 
 

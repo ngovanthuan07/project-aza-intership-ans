@@ -45,6 +45,9 @@ export default {
     ...mapLoadingActions([
       SHOW_LOADING_A
     ]),
+    handleBack() {
+      this.$router.back();
+    },
     async handleSearch() {
       try {
         this[SHOW_LOADING_A](true)
@@ -139,7 +142,7 @@ export default {
 <template>
   <div class="toolbar-bottom">
     <div class="toolbar-bottom-left">
-      <button class="btn" tabindex="105">
+      <button class="btn" @click="handleBack" tabindex="105">
         <font-awesome-icon :icon="['fas', 'caret-left']" /> 戻る
       </button>
     </div>

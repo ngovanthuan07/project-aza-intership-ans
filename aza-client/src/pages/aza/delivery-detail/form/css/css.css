@@ -34,3 +34,14 @@ select.form-control {
 .content .container-fluid .row .form-group .form-select {
     text-transform: none;
 }
+.btn-search {
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.btn-search:hover, .btn-search:focus{
+    background: #eef1fc !important;
+}
+.btn-search .input-icon{
+    font-size: 13px;
+}

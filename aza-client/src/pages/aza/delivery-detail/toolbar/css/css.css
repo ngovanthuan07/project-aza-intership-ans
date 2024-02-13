@@ -13,18 +13,6 @@
 }
 .toolbar-bottom .toolbar-bottom-left {
     padding-left: 10px;
-}.toolbar-bottom {
-    position: fixed;
-    width: 100%;
-    height: 50px;
-    background-color: #fff;
-    border: 1px solid #dddddd;
-    bottom: 0;
-    z-index: 1000;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
 }
 .toolbar-bottom .toolbar-bottom-left {
     padding-left: 10px;
@@ -37,10 +25,14 @@
     border: 0;
     outline: 0;
 }
+.toolbar-bottom button {
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
 .toolbar-bottom .toolbar-bottom-left button:focus {
     border: 1px solid #00B0F0;
     border-radius: 1px;
-    outline: none;
 }
 .toolbar-bottom .toolbar-bottom-right {
     padding-right: 20px;
@@ -53,6 +45,7 @@
     color: #43C5F4;
     margin-left: 10px;
 }
+
 .toolbar-bottom .toolbar-bottom-right .btn-delete {
     border: 1px solid #ffffff;
     color: #ffffff;
@@ -71,9 +64,8 @@
     opacity: 0.5;
 }
 .btn-copy:hover, .btn-new:hover,
-.btn-copy:focus,.btn-new:hover {
+.btn-copy:focus,.btn-new:focus {
     border: 1px solid #00B0F0;
     background-color: #BDE6FB;
     color: #00B0F0;
-    outline: none;
 }

@@ -63,6 +63,14 @@ export default {
       return column === this.sortColumn ?
           sortType[this.sortOrder]
           : sortType['DEFAULT']
+    },
+    onEditData(id) {
+      this.$router.push({
+        name: "delivery-detail",
+        query: {
+          delivery_cd: id
+        }
+      });
     }
   },
   computed: {
@@ -106,7 +114,7 @@ export default {
         <td colspan="8" class="text-center dataTables_empty" data-original-title="">&nbsp;</td>
       </tr>
     
-      <tr v-else v-for="data in listData" class="text-center">
+      <tr  @dblclick="onEditData(data.delivery_cd)" v-else v-for="data in listData" class="text-center">
         <td>{{data.delivery_cd}}</td>
         <td>{{data.delivery_nm}}</td>
         <td>{{data.delivery_kn}}</td>

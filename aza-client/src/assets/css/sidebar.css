@@ -5,6 +5,7 @@
     flex-direction: column;
     align-items: center;
     background-color: #97a9b0;
+    overflow: auto;
 }
 
 .sidebar {
@@ -77,3 +78,22 @@
     width: 12px;
     height: 15px;
 }
+
+/*start custom scroll*/
+.sidebar-container::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar-container::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+
+.sidebar-container:hover::-webkit-scrollbar-thumb {
+    background: #bdcad0;
+}
+/*end custom scroll*/

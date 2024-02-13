@@ -26,9 +26,36 @@
 </style>
 <script>
 import FormDetail from './form/FormDetail.vue'
+import {getData, postData} from "./service/HandleAPI.js";
   export default {
     components: {
       FormDetail
+    },
+    methods: {
+      async loadDelivery(delivery_cd) {
+        try {
+          let result = await postData(import.meta.env.VITE_APP_API_GET_DELIVERY_BY_CD, {delivery_cd});
+          if(result?.delivery) {
+            return result.delivery
+          }
+        } catch (e) {
+          console.error(e)
+          return null;
+        }
+        return null
+      }
+    },
+    async  mounted() {
+      let id = null;
+      if (this.$route.query?.delivery_cd) {
+        id = await this.$route.query?.delivery_cd;
+        this.delivery = await this.loadDelivery(id)
+      }
+    },
+    data() {
+      return {
+        delivery: null
+      }
     }
   }
 </script>

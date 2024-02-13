@@ -8,14 +8,20 @@
             </div>
         </div>
         <div class="condition-heading js-fix-before-header-panel">
-
+            <div class="pull-left">
+              <p class="search-title">検索条件</p>
+            </div>
+            <div class="pull-right">
+              <font-awesome-icon :icon="['fas', !showFormLayout ? 'caret-down' : 'caret-up']" class="pull-icon" @click="onChangeLayout"/>
+            </div>
         </div>
         <div class="content">
           <div class="container-fluid">
             <div class="container-fluid">
-              <FormSearch />
+              <FormSearch v-if="!showFormLayout"/>
 
-              <DataTables />
+              <DataTables
+              />
             </div>
 
           </div>
@@ -36,14 +42,20 @@ export default {
       FormSearch,
     },
     methods: {
-
+      onChangeLayout() {
+        this.showFormLayout = !this.showFormLayout;
+      }
     },
     computed: {
-
 
     },
     created() {
 
+    },
+    data() {
+      return {
+        showFormLayout: false
+      }
     }
 }
 

@@ -59,9 +59,9 @@ export default {
                    id="searchInput"
                    aria-label="Search"
                    aria-describedby="searchIcon" />
-            <span class="input-group-text bg-transparent" id="searchIcon" tabindex="12">
-              <font-awesome-icon :icon="['fas', 'magnifying-glass']" style="font-size: 13px;" />
-            </span>
+            <button class="input-group-text bg-transparent btn-search" id="searchIcon" tabindex="12">
+              <font-awesome-icon :icon="['fas', 'magnifying-glass']" class="input-icon" />
+            </button>
           </div>
         </div>
       </div>
