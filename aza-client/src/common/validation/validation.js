@@ -1,7 +1,9 @@
-export function ValidateFormData(formData, rules, messages) {
+export function ValidateFormData(options) {
     let errors = {};
-    for(let [attribute, listRule] of Object.entries(rules)) {
-        for(let rule of listRule) {
+    let {formData, messages} = options
+
+    for(let [attribute, rules] of Object.entries(options.rules)) {
+        for(let rule of rules) {
             let ruleName, ruleValue;
             if (typeof rule === 'string') {
                 [ruleName, ruleValue] = rule.includes(':') ? rule.split(':') : [rule, null];
@@ -24,8 +26,8 @@ export function ValidateFormData(formData, rules, messages) {
     return errors
 }
 
-
-export function ValidateField(value, rules, messages) {
+export function ValidateField(options) {
+    let {value, rules, messages} = options
     const errorMessageInput = [];
     for (const rule of rules) {
         let ruleName, ruleValue;

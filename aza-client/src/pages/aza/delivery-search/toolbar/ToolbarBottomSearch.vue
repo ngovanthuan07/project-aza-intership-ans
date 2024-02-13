@@ -28,6 +28,8 @@ import {
   notificationError
 } from '../../../../helpers/notification.js'
 import {NOTIFICATION_ERROR, NOTIFICATION_SUCCESS} from "../../../../constants/notification.js";
+import Swal from "sweetalert2";
+import {C007, E007, I008} from "../modal/modal.js";
 
 
 
@@ -72,23 +74,28 @@ export default {
     },
     async handleExcel() {
       try {
-        this[SHOW_LOADING_A](true)
-        let data = this.createDataObject('excel');
-        let filePath = (await postData(import.meta.env.VITE_APP_API_EXCEL, data))?.file_path;
-        let fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
-        const link = document.createElement('a');
-        link.href = filePath;
-        link.target = '_blank';
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        // notificationSuccess(NOTIFICATION_SUCCESS)
+        let confirmExcel = await C007()
+        if(confirmExcel) {
+          let data = this.createDataObject('excel');
+          let filePath = (await postData(import.meta.env.VITE_APP_API_EXCEL, data))?.file_path;
+          if(filePath) {
+            let fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
+            const link = document.createElement('a');
+            link.href = filePath;
+            link.target = '_blank';
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            await I008()
+          } else {
+            await E007()
+          }
+        }
       } catch (e) {
         notificationError(NOTIFICATION_ERROR)
         console.log('Error download file:', e);
       } finally {
-        this[SHOW_LOADING_A](false)
       }
     },
     createDataObject(type) {

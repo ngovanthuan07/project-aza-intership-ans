@@ -27,10 +27,6 @@ export default {
       })
     },
     async onSortColumn(column) {
-      if(this.totalPages === 0) {
-        alert('Cannot Data Sort')
-        return;
-      }
       if (column === this.sortColumn) {
         let tSort = this.sortOrder === 'ASC' ? 'DESC' : 'ASC'
         this.uploadDatable({
@@ -103,7 +99,7 @@ export default {
             <div class="tbl-header-box">
               <span></span>
               <span class="text-center">{{ col.title }}</span>
-              <font-awesome-icon :icon="onCheckSort(col.column)" class="fws-icon"
+              <font-awesome-icon v-if="this.totalPages > 0" :icon="onCheckSort(col.column)" class="fws-icon"
                                  @click="onSortColumn(col.column)"/>
             </div>
           </th>

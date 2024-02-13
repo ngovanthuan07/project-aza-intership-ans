@@ -1,0 +1,82 @@
+.swal-custom-popup {
+    height: 11rem;
+    padding: 0;
+}
+.swal-custom-popup .swal2-icon {
+    margin-top: 1.3rem;
+}
+.swal-custom-popup .swal-custom-title {
+    padding: 0;
+    font-size: 16px;
+}
+
+.swal-custom-popup .swal-custom-content {
+    margin-bottom: 0;
+    font-size: 16px !important;
+    overflow: revert;
+}
+.swal-custom-popup .swal2-actions {
+    margin-top: 0;
+}
+.swal-custom-popup .C007-icon {
+    height: 40px;
+    width: 40px;
+    background: #DD5F5D;
+    border: none;
+}
+
+.swal-custom-popup .swal2-icon-content {
+    font-size: 2rem;
+    font-weight: unset;
+    color: #ffffff;
+}
+
+.swal-custom-popup .btn-confirm-modal,
+.swal-custom-popup .btn-cancel-modal{
+    height: 30px;
+    display: flex;
+    padding-top: 0;
+    padding-bottom: 0;
+    background: #F0F0F0;
+    color: #000;
+
+}
+
+.swal-custom-popup .btn-confirm-modal:hover,
+.swal-custom-popup .btn-cancel-modal:hover{
+    background: #BBB9B9;
+}
+
+.swal-custom-popup .btn-confirm-modal:focus,
+.swal-custom-popup .btn-cancel-modal:focus{
+    outline: none;
+    box-shadow: none;
+}
+
+
+.swal-custom-popup .swal-E007-icon {
+    height: 40px;
+    width: 40px;
+    background: #DD5F5D;
+    border: none;
+}
+.swal-custom-popup .swal-E007-icon .swal2-x-mark .swal2-x-mark-line-left,
+.swal-custom-popup .swal-E007-icon .swal2-x-mark .swal2-x-mark-line-right {
+   top: 18px;
+   left: 7px;
+   width: 26px;
+   background: #ffffff;
+}
+
+.swal-custom-popup .swal-I008-icon {
+    height: 40px;
+    width: 40px;
+    font-weight: bold;
+    background: #47A5E2;
+    border: none;
+}
+
+
+
+
+

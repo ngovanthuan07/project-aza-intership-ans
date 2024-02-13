@@ -23,6 +23,12 @@ class ExcelController extends Controller
                 ,    :delivery_class_3';
         $data = DB::select($query, $request->all());
 
+        if(empty($data)) {
+            return response()->json([
+                'file_path' => null
+            ]);
+        }
+
         $export = new DeliveryExport($data);;
 
         $fileName = 'excel_' . now()->format('Y_m_d_His') . '.xlsx';
@@ -31,7 +37,7 @@ class ExcelController extends Controller
         Excel::store($export, $filePath, 'public');
 
         return response()->json([
-            'file_path' => asset('storage/' . $filePath)
+            'file_path' => asset('storage/' . $filePath),
         ]);
     }
 }
