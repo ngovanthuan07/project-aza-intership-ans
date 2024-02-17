@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Delivery\DeliveryController;
+use App\Http\Controllers\Delivery\Detail\DetailController;
 use App\Http\Controllers\Delivery\Search\ExcelController;
 use App\Http\Controllers\Delivery\Search\SearchController;
 use App\Http\Controllers\Delivery\SLivValController;
@@ -13,6 +14,13 @@ Route::prefix('delivery-search')->group(function () {
     Route::post('/search', [SearchController::class, 'search'])->name('delivery-search.search');
     Route::post('/excel', [ExcelController::class, 'report'])->name('delivery-search.excel');
 
+});
+
+
+Route::prefix('delivery-detail')->group(function () {
+    Route::post('/update', [DetailController::class, 'update'])->name('delivery-detail.update');
+    Route::post('/add', [DetailController::class, 'add'])->name('delivery-detail.add');
+    Route::post('/remove', [DetailController::class, 'remove'])->name('delivery-detail.remove');
 });
 
 Route::prefix('s_lib-val')->group(function () {

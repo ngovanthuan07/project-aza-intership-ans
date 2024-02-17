@@ -28,21 +28,7 @@ class DeliveryExport implements FromCollection, WithHeadings, ShouldAutoSize, Wi
     public function headings(): array
     {
         return [
-              '納入先コード' 
-            , '納入先名'
-            , 'フリガナ'
-            , '郵便番号'
-            , '住所'
-            , '電話番号'
-            , 'FAX番号'
-            , '納入先分類１'
-            , '納入先分類２'
-            , '納入先分類３'
-            , '備考'
-            , '登録日付'
-            , '登録利用者'
-            , '最終更新'
-            , '最終利用者名'
+            '納入先コード', '納入先名', 'フリガナ', '郵便番号', '住所', '電話番号', 'FAX番号', '納入先分類１', '納入先分類２', '納入先分類３', '備考', '登録日付', '登録利用者', '最終更新', '最終利用者名'
         ];
     }
 
@@ -59,6 +45,12 @@ class DeliveryExport implements FromCollection, WithHeadings, ShouldAutoSize, Wi
                 ],
             ],
         ];
+
+        $sheet->getStyle('A2:' . $highestColumn . $highestRow)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+
+        $sheet->getStyle('D2:D' . $highestRow)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+
+        $sheet->getStyle('F2:G' . $highestRow)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_TEXT);
 
         return [
             1    => [

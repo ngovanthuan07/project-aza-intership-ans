@@ -45,16 +45,14 @@
       </li>
       <!-- G -->
       <li class="sidebar-item nav-item" :class="{ 'active': $route.name === 'delivery-search' }">
-
-        <router-link :to="{ name: 'delivery-search' }" class="nav-link sidebar-router" href="#">
+        <router-link @click="handleChangeRoute" :to="{ name: 'delivery-search' }" class="nav-link sidebar-router" href="#">
           <font-awesome-icon :icon="['fas', 'up-long']" class="sidebar-icon"/>
           <span class="sidebar-content">データ出力</span>
         </router-link>
       </li>
       <!-- H -->
       <li class="sidebar-item nav-item" :class="{ 'active': $route.name === 'delivery-detail' }">
-
-        <router-link :to="{ name: 'delivery-detail' }" class="nav-link sidebar-router" href="#">
+        <router-link @click="handleChangeRoute"  :to="{ name: 'delivery-detail' }" class="nav-link sidebar-router" href="#">
           <font-awesome-icon :icon="['fas', 'star']"  class="sidebar-icon"/>
           <span class="sidebar-content">マスター</span>
         </router-link>
@@ -72,9 +70,9 @@
 </template>
 <style scoped>
 @import "../assets/css/sidebar.css";
-
 </style>
 <script>
+
 export default {
   data() {
     return {
@@ -82,6 +80,9 @@ export default {
     };
   },
   methods: {
+    handleChangeRoute() {
+
+    },
     setActiveTab(tab) {
       this.activeTab = tab;
     },

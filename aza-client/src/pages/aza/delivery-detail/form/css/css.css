@@ -23,7 +23,7 @@
 }
 input.form-control,
 select.form-control {
-    height: 28px;
+    height: 28px !important;
 }
 .form-control:focus {
     outline: 0;

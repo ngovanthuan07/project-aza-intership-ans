@@ -6,7 +6,7 @@ const aza = [
             {
                 path: "delivery-detail",
                 name: "delivery-detail",
-                component: () => import ("../pages/aza/delivery-detail/index.vue")
+                component: () => import ("../pages/aza/delivery-detail/index.vue"),
             },
             {
                 path: "delivery-search",

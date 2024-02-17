@@ -1,8 +1,23 @@
 .tbl-container {
-    overflow-y: auto;
+    overflow: auto;
     height: fit-content;
-    max-height: 66.4vh;
+    max-height: 43.4vh;
     margin: 15px 0 15px 0;
+    white-space: nowrap;
+}
+.tbl-container::-webkit-scrollbar {
+    height: 10px;
+    width: 0;
+}
+
+.tbl-container::-webkit-scrollbar-track {
+    border-radius: 0;
+    background: #eeeeee;
+}
+
+.tbl-container::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background: #c1c1c1;
 }
 
 #tbl-table thead th {

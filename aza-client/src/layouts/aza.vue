@@ -11,8 +11,9 @@
     </div>
 
 </template>
-<style scoped>
+<style>
 @import "../assets/css/aza.css";
+@import "../assets/css/popup-sweet-alert2.css";
 </style>
 <script>
 import TheHeader from '../components/TheHeader.vue'

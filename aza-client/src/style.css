@@ -1,82 +1,261 @@
-.swal-custom-popup {
-    height: 11rem;
-    padding: 0;
+.w-30{
+    width: 30px;
 }
-.swal-custom-popup .swal2-icon {
-    margin-top: 1.3rem;
-}
-.swal-custom-popup .swal-custom-title {
-    padding: 0;
-    font-size: 16px;
-}
-
-.swal-custom-popup .swal-custom-content {
-    margin-bottom: 0;
-    font-size: 16px !important;
-    overflow: revert;
-}
-.swal-custom-popup .swal2-actions {
-    margin-top: 0;
-}
-.swal-custom-popup .C007-icon {
-    height: 40px;
+.w-40{
     width: 40px;
-    background: #DD5F5D;
-    border: none;
 }
-
-.swal-custom-popup .swal2-icon-content {
-    font-size: 2rem;
-    font-weight: unset;
-    color: #ffffff;
+.w-45{
+    width: 45px;
 }
-
-.swal-custom-popup .btn-confirm-modal,
-.swal-custom-popup .btn-cancel-modal{
-    height: 30px;
-    display: flex;
-    padding-top: 0;
-    padding-bottom: 0;
-    background: #F0F0F0;
-    color: #000;
-
+.w-50{
+    width: 50px;
 }
-
-.swal-custom-popup .btn-confirm-modal:hover,
-.swal-custom-popup .btn-cancel-modal:hover{
-    background: #BBB9B9;
+.w-55{
+    width: 55px;
 }
-
-.swal-custom-popup .btn-confirm-modal:focus,
-.swal-custom-popup .btn-cancel-modal:focus{
-    outline: none;
-    box-shadow: none;
+.w-60{
+    width: 60px;
 }
-
-
-.swal-custom-popup .swal-E007-icon {
-    height: 40px;
+.w-70{
+    width: 70px;
+}
+.w-80{
+    width: 80px;
+}
+.w-90{
+    width: 90px;
+}
+.w-95{
+    width: 95px;
+}
+.w-100{
+    width: 100px;
+}
+.w-110{
+    width: 110px;
+}
+.w-120{
+    width: 120px;
+}
+.w-127{
+    width: 127px;
+}
+.w-135{
+    width: 135px;
+}
+.w-140{
+    width: 140px;
+}
+.w-150{
+    width: 150px;
+}
+.w-160{
+    width: 160px;
+}
+.w-180{
+    width: 180px;
+}
+.w-200{
+    width: 200px;
+}
+.w-250{
+    width: 250px;
+}
+.w-300{
+    width: 300px;
+}
+.w-350{
+    width: 350px;
+}
+.w-400{
+    width: 400px;
+}
+.w-510{
+    width: 510px;
+}
+.w-640{
+    width: 640px;
+}
+.w-650{
+    width: 650px;
+}
+/*min*/
+.min-w80{
+    min-width: 80px;
+}
+.min-w100{
+    min-width: 100px;
+}
+.min-w135{
+    min-width: 135px;
+}
+.min-w150{
+    min-width: 150px;
+}
+.min-w250{
+    min-width: 250px;
+}
+.min-w200{
+    min-width: 200px;
+}
+.min-w300{
+    min-width: 300px;
+}
+.min-w350{
+    min-width: 350px;
+}
+.min-w400{
+    min-width: 400px;
+}
+.min-w650{
+    width: 650px;
+}
+/*max*/
+.max-w100{
+    max-width: 100px;
+}
+.max-w135{
+    max-width: 135px;
+}
+.max-w150{
+    max-width: 150px;
+}
+.max-w250{
+    max-width: 250px;
+}
+.max-w200{
+    max-width: 200px;
+}
+.max-w300{
+    max-width: 300px;
+}
+.max-w450{
+    max-width: 450px;
+}
+.max-w650{
+    width: 650px;
+}
+/* sumary*/
+.sum-w20{
+    min-width: 20px;
+    width: 20px;
+    max-width: 20px;
+}
+.sum-w30{
+    min-width: 30px;
+    width: 30px;
+    max-width: 30px;
+}
+.sum-w40{
+    min-width: 40px;
     width: 40px;
-    background: #DD5F5D;
-    border: none;
+    max-width: 40px;
 }
-.swal-custom-popup .swal-E007-icon .swal2-x-mark .swal2-x-mark-line-left,
-.swal-custom-popup .swal-E007-icon .swal2-x-mark .swal2-x-mark-line-right {
-   top: 18px;
-   left: 7px;
-   width: 26px;
-   background: #ffffff;
+.sum-w50{
+    min-width: 50px;
+    width: 50px;
+    max-width: 50px;
 }
-
-.swal-custom-popup .swal-I008-icon {
-    height: 40px;
-    width: 40px;
-    font-weight: bold;
-    background: #47A5E2;
-    border: none;
+.sum-w70{
+    min-width: 70px;
+    width: 70px;
+    max-width: 70px;
 }
-
-
-
-
-
+.sum-w80{
+    min-width: 80px;
+    width: 80px;
+    max-width: 80px;
+}
+.sum-w100{
+    min-width: 100px;
+    width: 100px;
+    max-width: 100px;
+}
+.sum-w110{
+    min-width: 110px;
+    width: 110px;
+    max-width: 110px;
+}
+.sum-w120{
+    min-width: 120px;
+    width: 120px;
+    max-width: 120px;
+}
+.sum-w135{
+    min-width: 135px;
+    width: 135px;
+    max-width: 135px;
+}
+.sum-w150{
+    min-width: 150px;
+    width: 150px;
+    max-width: 150px;
+}
+.sum-w160{
+    min-width: 160px;
+    width: 160px;
+    max-width: 160px;
+}
+.sum-w200{
+    min-width: 200px;
+    width: 200px;
+    max-width: 200px;
+}
+.sum-w250{
+    min-width: 250px;
+    width: 250px;
+    max-width: 250px;
+}
+.sum-w300{
+    min-width: 300px;
+    width: 300px;
+    max-width: 300px;
+}
+.sum-w350{
+    min-width: 350px;
+    width: 350px;
+    max-width: 350px;
+}
+.sum-w380{
+    min-width: 380px;
+    width: 380px;
+    max-width: 380px;
+}
+.sum-w400{
+    min-width: 400px;
+    width: 400px;
+    max-width: 400px;
+}
+.sum-w550{
+    min-width: 550px;
+    width: 550px;
+    max-width: 550px;
+}
+.sum-w650{
+    min-width: 650px;
+    width: 650px;
+    max-width: 650px;
+}
+.w100_per {
+    width: 100%;
+}
+/*height*/
+.h-35 {
+    height: 35px;
+}
+.h-50 {
+    height: 50px;
+}
+.h-70 {
+    height: 70px;
+}
+.h-100 {
+    height: 100px;
+}
+.h-150 {
+    height: 150px;
+}
+.h-200 {
+    height: 200px;
+}
+/*End:: height*/

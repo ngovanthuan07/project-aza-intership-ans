@@ -16,7 +16,7 @@
         </div>
         <div class="content">
             <div class="container-fluid">
-               <FormDetail />
+               <FormDetail/>
             </div>
         </div>
     </div>
@@ -26,12 +26,22 @@
 </style>
 <script>
 import FormDetail from './form/FormDetail.vue'
-import {getData, postData} from "./service/HandleAPI.js";
-  export default {
+import {postData} from "./service/HandleAPI.js";
+import {createNamespacedHelpers} from "vuex";
+import {UPDATE_FORM_DATA_DETAIL_A} from "../../../store/modules/request-form/types.js";
+
+const {
+  mapActions: mapFormDataDetailActions
+} = createNamespacedHelpers('requestForm');
+
+export default {
     components: {
       FormDetail
     },
     methods: {
+      ...mapFormDataDetailActions([
+        UPDATE_FORM_DATA_DETAIL_A
+      ]),
       async loadDelivery(delivery_cd) {
         try {
           let result = await postData(import.meta.env.VITE_APP_API_GET_DELIVERY_BY_CD, {delivery_cd});
@@ -49,13 +59,17 @@ import {getData, postData} from "./service/HandleAPI.js";
       let id = null;
       if (this.$route.query?.delivery_cd) {
         id = await this.$route.query?.delivery_cd;
-        this.delivery = await this.loadDelivery(id)
+        let delivery = await this.loadDelivery(id)
+        this[UPDATE_FORM_DATA_DETAIL_A]({action: '', payload: delivery})
       }
     },
-    data() {
-      return {
-        delivery: null
-      }
-    }
+    watch: {
+      '$route.query.delivery_cd': async function(newDeliveryCd, oldDeliveryCd) {
+        if (newDeliveryCd !== oldDeliveryCd) {
+          let delivery = await this.loadDelivery(newDeliveryCd);
+          this[UPDATE_FORM_DATA_DETAIL_A]({action: '', payload: delivery})
+        }
+      },
+    },
   }
 </script>

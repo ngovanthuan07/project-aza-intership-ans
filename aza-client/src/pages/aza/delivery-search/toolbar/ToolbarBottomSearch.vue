@@ -1,6 +1,5 @@
 <script>
 import { createNamespacedHelpers } from "vuex";
-import axios from "axios";
 import {
   AC_CHANGE_DATATABLES,
   CURRENT_PAGE, LIST_DATA, RESET_STATE, TOTAL_ITEMS, TOTAL_PAGES, UPDATE_STATE
@@ -24,12 +23,10 @@ const {
 } = createNamespacedHelpers('loadingSpinner');
 
 import {
-  notificationSuccess,
   notificationError
 } from '../../../../helpers/notification.js'
 import {NOTIFICATION_ERROR, NOTIFICATION_SUCCESS} from "../../../../constants/notification.js";
-import Swal from "sweetalert2";
-import {C007, E007, I008} from "../modal/modal.js";
+import {C007, E007, I008} from "../../../../common/modal/popupSwal.js";
 
 
 

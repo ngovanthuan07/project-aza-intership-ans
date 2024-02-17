@@ -58,7 +58,7 @@ BEGIN
         ,     [upd_ip]                        =     @P_upd_ip
         ,     [upd_date]                      =     @P_upd_date
         WHERE [delivery_cd]                   =     @P_delivery_cd;
-   
+        SELECT (1)
         COMMIT TRANSACTION
     END TRY
     BEGIN CATCH

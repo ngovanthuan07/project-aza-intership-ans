@@ -28,7 +28,6 @@ class ExcelController extends Controller
                 'file_path' => null
             ]);
         }
-
         $export = new DeliveryExport($data);;
 
         $fileName = 'excel_' . now()->format('Y_m_d_His') . '.xlsx';

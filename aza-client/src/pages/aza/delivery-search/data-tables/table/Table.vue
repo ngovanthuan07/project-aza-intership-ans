@@ -95,12 +95,18 @@ export default {
     <table id="tbl-table" class="table table-bordered table-striped-custom" >
       <thead>
         <tr>
-          <th v-for="col in columns" scope="col" class="tbl-header">
-            <div class="tbl-header-box">
+          <th v-for="col in columns" scope="col" class="tbl-header text-center" :class="col.class">
+            <div v-if="this.totalPages > 0" class="tbl-header-box">
               <span></span>
               <span class="text-center">{{ col.title }}</span>
-              <font-awesome-icon v-if="this.totalPages > 0" :icon="onCheckSort(col.column)" class="fws-icon"
-                                 @click="onSortColumn(col.column)"/>
+              <font-awesome-icon :icon="onCheckSort(col.column)" class="fws-icon"  @click="onSortColumn(col.column)"/>
+            </div>
+            <div>
+              <div v-if="this.totalPages === 0" class="tbl-header-box">
+                <span></span>
+                <span class="text-center">{{ col.title }}</span>
+                <span></span>
+              </div>
             </div>
           </th>
       </tr>
@@ -110,7 +116,7 @@ export default {
         <td colspan="8" class="text-center dataTables_empty" data-original-title="">&nbsp;</td>
       </tr>
     
-      <tr  @dblclick="onEditData(data.delivery_cd)" v-else v-for="data in listData" class="text-center">
+      <tr  @dblclick="onEditData(data.delivery_cd)" v-else v-for="data in listData">
         <td>{{data.delivery_cd}}</td>
         <td>{{data.delivery_nm}}</td>
         <td>{{data.delivery_kn}}</td>
@@ -118,7 +124,7 @@ export default {
         <td>{{data.tel}}</td>
         <td>{{data.delivery_class_1}}</td>
         <td>{{data.delivery_class_2}}</td>
-        <td>{{data.delivery_class_3}}t</td>
+        <td>{{data.delivery_class_3}}</td>
       </tr>
       </tbody>
     </table>
