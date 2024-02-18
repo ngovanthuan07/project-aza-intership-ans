@@ -1,16 +1,22 @@
 <script>
 import {createNamespacedHelpers} from "vuex";
-import {UPDATE_FORM_DATA_DETAIL_A} from "../../../../store/modules/request-form/types.js";
+import {CHANGE_OPTION, EDIT, NEW, UPDATE_FORM_DATA_DETAIL_A} from "../../../../store/modules/request-form/types.js";
 import {postData} from "../../delivery-search/service/HandleAPI.js";
 import {notificationError} from "../../../../helpers/notification.js";
 import {NOTIFICATION_ERROR} from "../../../../constants/notification.js";
-import {mapUpdateDetail} from "../map/detail.js";
+import {mapAddDetail, mapUpdateDetail} from "../map/detail.js";
 import {
   DETAIL_QUESTION_REGISTER,
   DETAIL_UPDATE_FAIL,
   DETAIL_UPDATE_SUCCESSFUL
 } from "../../../../constants/alertConstant.js";
 import {errorAlert, infoAlert, questionAlert} from "../../../../common/modal/popupSwal.js";
+import {DELIVERY_DETAIL} from "../../../../constants/clientConstant.js";
+import {
+  setLocalStorage,
+  removeLocalStorage,
+  getLocalStorage
+} from "../../../../common/client-side-storage/clientStorage.js";
 
 const {
   mapState: mapFormDataDetailState,
@@ -33,8 +39,12 @@ export default {
     onCopy() {
       console.log('handle copy')
     },
-    onNew() {
-      console.log('handle new')
+    async onNew() {
+      let delivery = mapAddDetail({})
+      console.log(this.option)
+      await removeLocalStorage(DELIVERY_DETAIL)
+      await this[UPDATE_FORM_DATA_DETAIL_A]({action: '', payload: delivery})
+      await this[UPDATE_FORM_DATA_DETAIL_A]({action: CHANGE_OPTION, payload: NEW})
     },
     async onRegister() {
       try {
@@ -50,12 +60,24 @@ export default {
         await errorAlert('[C007]', DETAIL_UPDATE_FAIL)
       } finally {
       }
+    },
+    disabledBtn(btn) {
+      // console.log(this.option)
+      switch (btn) {
+        case 'delete': {
+          if(this.option === EDIT) {
+            return false
+          }
+        }
+        return true;
+      }
     }
   },
   computed: {
     ...mapFormDataDetailState({
-      formData: state => state.deliveryDetail.formData
-    })
+      formData: state => state.deliveryDetail.formData,
+      option: state => state.deliveryDetail.option
+    }),
   },
   data() {
     return {
@@ -74,7 +96,7 @@ export default {
       </button>
     </div>
     <div class="toolbar-bottom-right">
-      <button class="btn btn-delete" @click="onDelete" tabindex="101">
+      <button :disabled="disabledBtn('delete')"  class="btn btn-delete" @click="onDelete" tabindex="101">
         削除
       </button>
       <button class="btn btn-copy" @click="onCopy" tabindex="102">

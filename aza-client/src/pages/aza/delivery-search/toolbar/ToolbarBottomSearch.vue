@@ -7,7 +7,6 @@ import {
 import { postData } from "../service/HandleAPI.js";
 import {SHOW_LOADING_A} from "../../../../store/modules/loading-spinner/types.js";
 import {ON_RESET_FORM_DATA} from "../../../../store/modules/delivery-search/search-from/types.js";
-import formSearch from "../form/FormSearch.vue";
 const {
   mapState: mapDatableState,
   mapActions: mapDatatableActions
@@ -22,11 +21,8 @@ const {
   mapActions: mapLoadingActions
 } = createNamespacedHelpers('loadingSpinner');
 
-import {
-  notificationError
-} from '../../../../helpers/notification.js'
 import {NOTIFICATION_ERROR, NOTIFICATION_SUCCESS} from "../../../../constants/notification.js";
-import {C007, E007, I008} from "../../../../common/modal/popupSwal.js";
+import {C007, E007, errorAlert, I008} from "../../../../common/modal/popupSwal.js";
 
 
 
@@ -62,7 +58,7 @@ export default {
           }
         })
       } catch (e) {
-        notificationError(NOTIFICATION_ERROR)
+        errorAlert('', NOTIFICATION_ERROR)
         console.error(e)
       } finally {
         this[SHOW_LOADING_A](false)
@@ -90,7 +86,7 @@ export default {
           }
         }
       } catch (e) {
-        notificationError(NOTIFICATION_ERROR)
+        errorAlert('', NOTIFICATION_ERROR)
         console.log('Error download file:', e);
       } finally {
       }

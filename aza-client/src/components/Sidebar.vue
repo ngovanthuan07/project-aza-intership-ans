@@ -73,6 +73,9 @@
 </style>
 <script>
 
+import {DELIVERY_DETAIL} from "../constants/clientConstant.js";
+import {removeLocalStorage} from "../common/client-side-storage/clientStorage.js";
+
 export default {
   data() {
     return {
@@ -81,7 +84,7 @@ export default {
   },
   methods: {
     handleChangeRoute() {
-
+      removeLocalStorage(DELIVERY_DETAIL)
     },
     setActiveTab(tab) {
       this.activeTab = tab;

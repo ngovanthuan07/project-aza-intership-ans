@@ -1,0 +1,1 @@
+export const DELIVERY_DETAIL = 'DELIVERY_DETAIL';

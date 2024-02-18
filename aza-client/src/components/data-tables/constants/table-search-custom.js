@@ -1,4 +1,4 @@
-export default [
+export const headers = [
     {
         title: '納入先コード',
         column: 'delivery_cd',
@@ -39,4 +39,17 @@ export default [
         column: 'delivery_class_3',
         class: 'sum-w110'
     }
+]
+
+
+export const fields = [
+            'delivery_cd'
+    ,       'delivery_nm'
+    ,       'delivery_kn'
+    ,       'address'
+    ,       'tel'
+    ,       'delivery_class_1'
+    ,       'delivery_class_2'
+    ,       'delivery_class_3'
+
 ]

@@ -19,8 +19,10 @@
     <div class="content">
       <div class="container-fluid">
         <div class="container-fluid">
-          <FormSearch v-if="!showFormLayout"/>
-          <DataTables />
+          <FormSearch
+              :formData="formDataSearch"
+              v-if="!showFormLayout"/>
+          <SearchTable />
         </div>
 
       </div>
@@ -32,20 +34,32 @@
 @import "./css/css.css";
 </style>
 <script>
-import DataTables from './data-tables/DataTables.vue';
 import FormSearch from "./form/FormSearch.vue";
-import {ON_RESET_FORM_DATA} from "../../../store/modules/delivery-search/search-from/types.js";
-import {AC_CHANGE_DATATABLES, RESET_STATE} from "../../../store/modules/data-table/types.js";
+import SearchTable from "./search-table/SearchTable.vue";
+import {createNamespacedHelpers} from "vuex";
+import {ON_RESET_FORM_DATA, UPDATE_FORM_DATA} from "../../../store/modules/delivery-search/search-from/types.js";
+const {
+  mapState: mapFormDataSearchState,
+  mapActions: mapFormDataSearchActions
+} = createNamespacedHelpers('formDataSearch');
 
 export default {
   components: {
-    DataTables,
+    SearchTable,
     FormSearch,
   },
   methods: {
+   ...mapFormDataSearchActions([
+      UPDATE_FORM_DATA, ON_RESET_FORM_DATA
+   ]),
     onChangeLayout() {
       this.showFormLayout = !this.showFormLayout;
     },
+  },
+  computed: {
+    ...mapFormDataSearchState({
+      formDataSearch: state => state.formData
+    }),
   },
   data() {
     return {

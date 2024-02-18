@@ -1,33 +1,18 @@
 <script>
-import {createNamespacedHelpers} from "vuex";
-import {
-  ON_RESET_FORM_DATA,
-  UPDATE_FORM_DATA
-} from "../../../../store/modules/delivery-search/search-from/types.js";
 import {getData} from "../service/HandleAPI.js";
 
-const {
-  mapState: mapFormDataSearchState,
-  mapActions: mapFormDataSearchActions
-} = createNamespacedHelpers('formDataSearch');
 
 export default {
+  props: {
+    formData: Object
+  },
   methods: {
-    ...mapFormDataSearchActions([
-      UPDATE_FORM_DATA, ON_RESET_FORM_DATA
-    ]),
     async getDeliveryClasses() {
       let deliveryClasses = await getData(import.meta.env.VITE_APP_DELIVERY_CLASS);
       this.deliveryClassOne = deliveryClasses.deliveryClassOne;
       this.deliveryClassTwo = deliveryClasses.deliveryClassTwo;
       this.deliveryClassThree = deliveryClasses.deliveryClassThree;
     }
-  },
-  computed: {
-    ...mapFormDataSearchState({
-      formDataSearch: state => state.formData
-    }),
-
   },
   mounted () {
     this.getDeliveryClasses();
@@ -50,7 +35,7 @@ export default {
       <div class="form-group">
         <label class="form-label">納入先コード</label>
         <input
-            v-model="formDataSearch.delivery_cd"
+            v-model="formData.delivery_cd"
             type="text"
             maxlength="6"
             tabindex="11"
@@ -62,7 +47,7 @@ export default {
     <div class="col-md-2">
       <div class="form-group">
         <label class="form-label">納入先名</label>
-        <input v-model="formDataSearch.delivery_nm"
+        <input v-model="formData.delivery_nm"
                type="text"
                maxlength="90"
                tabindex="12"
@@ -75,7 +60,7 @@ export default {
     <div class="col-md-2">
       <div class="form-group">
         <label class="form-label">フリガナ</label>
-        <input v-model="formDataSearch.delivery_kn"
+        <input v-model="formData.delivery_kn"
                type="text"
                maxlength="140"
                tabindex="13"
@@ -87,7 +72,7 @@ export default {
     <div class="col-md-4">
       <div class="form-group">
         <label class="form-label">住所</label>
-        <input v-model="formDataSearch.address"
+        <input v-model="formData.address"
                type="text"
                maxlength="400"
                tabindex="14"
@@ -99,7 +84,7 @@ export default {
     <div class="col-md-2">
       <div class="form-group">
         <label class="form-label">電話番号</label>
-        <input v-model="formDataSearch.tel"
+        <input v-model="formData.tel"
                type="text"
                maxlength="20"
                tabindex="15"
@@ -115,7 +100,7 @@ export default {
       <div class="form-group">
         <label class="form-label">納入先分類１</label>
         <select
-            v-model="formDataSearch.delivery_class_1"
+            v-model="formData.delivery_class_1"
             class="form-select form-control">
           <option value="0"></option>
           <option
@@ -131,7 +116,7 @@ export default {
     <div class="col-md-2">
       <div class="form-group">
         <label class="form-label">納入先分類２</label>
-        <select v-model="formDataSearch.delivery_class_2"
+        <select v-model="formData.delivery_class_2"
                 class="form-select form-control">
           <option value="0"></option>
           <option
@@ -148,7 +133,7 @@ export default {
       <div class="form-group">
         <label class="form-label">納入先分類３</label>
         <select
-            v-model="formDataSearch.delivery_class_3"
+            v-model="formData.delivery_class_3"
             class="form-select form-control">
           <option value="0"></option>
           <option

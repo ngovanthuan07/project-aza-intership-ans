@@ -59,7 +59,7 @@ export default {
       this[SHOW_LOADING_A](true)
       setTimeout(() => {
         this[SHOW_LOADING_A](false)
-      }, 300);
+      }, 200);
     },
 }
 </script>

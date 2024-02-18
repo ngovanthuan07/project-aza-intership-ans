@@ -1,16 +1,16 @@
-function setLocalStorage(key, value) {
+export function setLocalStorage(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
 }
 
-function getLocalStorage(key) {
+export function getLocalStorage(key) {
     const storedValue = localStorage.getItem(key);
     return storedValue ? JSON.parse(storedValue) : null;
 }
 
-function removeLocalStorage(key) {
+export function removeLocalStorage(key) {
     localStorage.removeItem(key);
 }
 
-function clearLocalStorage() {
+export function clearLocalStorage() {
     localStorage.clear();
 }

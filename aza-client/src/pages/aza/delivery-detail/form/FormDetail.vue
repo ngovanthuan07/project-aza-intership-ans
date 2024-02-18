@@ -25,6 +25,9 @@ const {
 } = createNamespacedHelpers('requestForm');
 export default {
   components: {PopupSearch},
+  props: {
+    handleOpenPopUp: Function
+  },
   methods: {
     ...mapFormDataDetailActions([
       UPDATE_FORM_DATA_DETAIL_A
@@ -47,9 +50,10 @@ export default {
     },
     async onSearchPopup() {
       this[SHOW_LOADING_A](true)
-      this[ON_RESET_FORM_DATA]()
-      this[AC_CHANGE_DATATABLES]({type: RESET_STATE, payload: null})
-      this[SHOW_LOADING_A](false)
+      await this.handleOpenPopUp()
+      setTimeout(() => {
+        this[SHOW_LOADING_A](false);
+      }, 200);
     }
   },
   computed: {
@@ -58,7 +62,6 @@ export default {
     })
   },
   mounted () {
-
     this.getDeliveryClasses();
   },
   data() {
@@ -73,7 +76,6 @@ export default {
 </script>
 
 <template>
-  <PopupSearch />
   <div class="container-fluid">
     <div class="row">
       <div class="col-2">
@@ -91,7 +93,6 @@ export default {
                    aria-describedby="searchIcon" />
             <button class="input-group-text bg-transparent btn-search"
                     @click="onSearchPopup"
-                    data-bs-toggle="modal" data-bs-target="#searchModal"
                     id="searchIcon" tabindex="12">
               <font-awesome-icon :icon="['fas', 'magnifying-glass']"
                                  class="input-icon" />

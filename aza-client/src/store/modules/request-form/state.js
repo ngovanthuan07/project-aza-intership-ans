@@ -28,7 +28,8 @@ export default {
             ,    upd_ip                      :  null
             ,    upd_date                    :  null
         },
-        errorsMessages:                           []
+        errorsMessages:                         [],
+        option:                                 'NEW'
     },
 
 }

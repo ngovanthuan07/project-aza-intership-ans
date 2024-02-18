@@ -1,28 +1,16 @@
 <script>
-
 import FormSearch from "../../../delivery-search/form/FormSearch.vue";
-import DataTables from "../../../delivery-search/data-tables/DataTables.vue";
+import DataTables from "../../../../../components/data-tables/DataTables.vue";
 import {SHOW_LOADING_A} from "../../../../../store/modules/loading-spinner/types.js";
 import {postData} from "../../../delivery-search/service/HandleAPI.js";
-import {
-  AC_CHANGE_DATATABLES,
-  CURRENT_PAGE, LIST_DATA,
-  TOTAL_ITEMS, TOTAL_PAGES,
-  UPDATE_STATE
-} from "../../../../../store/modules/data-table/types.js";
-import {notificationError} from "../../../../../helpers/notification.js";
-import {NOTIFICATION_ERROR} from "../../../../../constants/notification.js";
 import {createNamespacedHelpers} from "vuex";
-import {ON_RESET_FORM_DATA} from "../../../../../store/modules/delivery-search/search-from/types.js";
-const {
-  mapState: mapDatableState,
-  mapActions: mapDatatableActions
-} = createNamespacedHelpers('dataTable');
-const {
-  mapState: mapFormDataSearchState,
-  mapActions: mapFormDataSearchActions
-} = createNamespacedHelpers('formDataSearch');
-
+import formSearchO from "./js/formSearchO.js";
+import dataTableSearchO from "./js/dataTableSearchO.js";
+import * as tableSearchCustomO from './js/tableSearchCustomO.js'
+import {ASC, DESC} from "../../../../../constants/sortConstant.js";
+import selectOptionPageSize from "../../../delivery-search/search-table/js/selectOptionPageSizeO.js";
+import {errorAlert} from "../../../../../common/modal/popupSwal.js";
+import {NOTIFICATION_ERROR} from "../../../../../constants/notification.js";
 const {
   mapState: mapLoadingState,
   mapActions: mapLoadingActions
@@ -32,89 +20,213 @@ export default {
     FormSearch,
     DataTables
   },
+  props: {
+    handlePopUp       : Function,
+    togglePopup       : Boolean,
+    handleClosePopUp  : Function
+  },
   methods: {
-    ...mapDatatableActions([
-      AC_CHANGE_DATATABLES
-    ]),
-    ...mapFormDataSearchActions([
-      ON_RESET_FORM_DATA
-    ]),
     ...mapLoadingActions([
       SHOW_LOADING_A
     ]),
+    async onChangeSelectorPageSize(pPageSize) {
+      {
+        try {
+          this[SHOW_LOADING_A](true)
+          let dataSelect = {
+            ...this.formData,
+            'sortType'    : this.searchable.sortOrder,
+            'sortColumn'  :  this.searchable.sortColumn,
+            'currentPage' : 1,
+            'limit'       : pPageSize
+          }
+          let result = await postData(import.meta.env.VITE_APP_API_SEARCH, dataSelect);
+
+          this.searchable.pageSize     = pPageSize
+          this.searchable.currentPage  = 1
+          this.searchable.totalPages   = result.totalItems
+          this.searchable.totalPages   = result.totalPages
+          this.searchable.listData     = result.resultSearch
+        } catch (e) {
+          console.error(e)
+          errorAlert('', NOTIFICATION_ERROR)
+        } finally {
+          this[SHOW_LOADING_A](false)
+        }
+      }
+    },
+
+    async onChangePage(page) {
+      try {
+        this[SHOW_LOADING_A](true)
+        let dataSelect = {
+          ...this.formData,
+          'sortType': this.searchable.sortOrder,
+          'sortColumn': this.searchable.sortColumn,
+          'currentPage': page,
+          'limit': this.searchable.pageSize
+        }
+        let result = await postData(import.meta.env.VITE_APP_API_SEARCH, dataSelect);
+
+        this.searchable.currentPage  = page
+        this.searchable.listData     = result.resultSearch
+        console.log('Change current page successful');
+      } catch (error) {
+        console.error('Error changing current page:', error);
+        errorAlert('', NOTIFICATION_ERROR)
+      } finally {
+        this[SHOW_LOADING_A](false)
+      }
+    },
+
+    async onRelativePage(value) {
+      await this.handlePopUp(value)
+      await this.onClosePopup()
+    },
+    // handle search
     async handleSearch() {
       try {
         this[SHOW_LOADING_A](true)
         let data = this.createDataObject('search');
         let result = await postData(import.meta.env.VITE_APP_API_SEARCH, data);
 
-        this[AC_CHANGE_DATATABLES]({
-          type: UPDATE_STATE,
-          payload: {
-            [CURRENT_PAGE]: 1,
-            [TOTAL_ITEMS]: result.totalItems,
-            [TOTAL_PAGES]: result.totalPages,
-            [LIST_DATA]: result.resultSearch,
-          }
-        })
+        this.searchable.currentPage = 1;
+        this.searchable.totalItems  = result.totalItems;
+        this.searchable.totalPages  = result.totalPages;
+        this.searchable.listData    = result.resultSearch
       } catch (e) {
-        notificationError(NOTIFICATION_ERROR)
         console.error(e)
+        errorAlert('', NOTIFICATION_ERROR)
       } finally {
         this[SHOW_LOADING_A](false)
       }
-
+    },
+    async onSortable(column) {
+      try {
+        if (column === this.searchable.sortColumn) {
+          let tSort = this.searchable.sortOrder === ASC ? DESC : ASC;
+          this.searchable.sortOrder = tSort
+        } else {
+          this.searchable.sortColumn = column
+          this.searchable.sortOrder = ASC
+        }
+        let dataSort = {
+          ...this.formData,
+          'sortType': this.searchable.sortOrder,
+          'sortColumn': this.searchable.sortColumn,
+          'currentPage': this.searchable.currentPage,
+          'limit': this.searchable.pageSize
+        }
+        let result = await postData(import.meta.env.VITE_APP_API_SEARCH, dataSort);
+        this.searchable.listData = result.resultSearch
+      } catch (e) {
+        console.error(e)
+        errorAlert('', NOTIFICATION_ERROR)
+      }
     },
     createDataObject(type) {
       switch (type) {
         case 'search':
           return {
-            ...this.formDataSearch,
-            'sortType': this.sortOrder,
-            'sortColumn': this.sortColumn,
-            'currentPage': this.currentPage,
-            'limit': this.pageSize
+            ...this.formData,
+            'sortType': this.searchable.sortOrder,
+            'sortColumn': this.searchable.sortColumn,
+            'currentPage': this.searchable.currentPage,
+            'limit': this.searchable.pageSize
           };
-        case 'excel':
-          return this.formDataSearch;
       }
     },
-    handleResetSearch() {
-      this[ON_RESET_FORM_DATA]()
-      this[AC_CHANGE_DATATABLES]({type: RESET_STATE, payload: null})
+    onChangeLayout() {
+      this.showFormLayout = !this.showFormLayout;
+    },
+    onResetSearch() {
+      this.searchable = {
+        sortOrder: 'ASC',
+        sortOrders: [],
+        sortColumn: null,
+        pageSize: 10,
+        currentPage: 1,
+        totalItems: 0,
+        totalPages: 0,
+        startPage: 1,
+        listData: []
+      };
+      this.formData = {
+        delivery_cd: '',
+        delivery_nm: '',
+        delivery_kn: '',
+        address: '',
+        tel: '',
+        delivery_class_1: 0,
+        delivery_class_2: 0,
+        delivery_class_3: 0,
+      }
+    },
+    async onClosePopup() {
+       await this.handleClosePopUp()
+       this.onResetSearch()
     }
   },
   computed: {
-    ...mapFormDataSearchState({
-      formDataSearch: state => state.formData
-    }),
-    ...mapDatableState({
-      sortOrder: state => state.sortOrder,
-      sortColumn: state => state.sortColumn,
-      currentPage: state => state.currentPage,
-      pageSize: state => state.pageSize,
-      listData: state => state.listData
-    }),
     ...mapLoadingState({
       showLoading: state => state.showLoading
-    })
+    }),
   },
+  setup() {
+    return {
+      keyItem: 'delivery_cd'
+    }
+  },
+  data() {
+    let headers        = tableSearchCustomO.headers;
+    let fields         = tableSearchCustomO.fields;
+    let formData       = formSearchO;
+    let searchable     = dataTableSearchO;
+    let selectOptions  = selectOptionPageSize;
+    return {
+      formData,
+      searchable,
+      selectOptions,
+      headers,
+      fields,
+      showFormLayout: false
+    }
+  }
 }
 </script>
 
 <template>
-  <div class="modal fade" id="searchModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="searchLabel" aria-hidden="true">
+  <div
+      v-if="togglePopup"
+      class="modal fade show"
+      id="searchModal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      style="display: block"
+      aria-labelledby="searchLabel"
+      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered d-flex align-items-center justify-content-center">
       <div class="modal-content ">
         <div class="modal-header">
           <button type="button"
                   class="btn-close"
-                  data-bs-dismiss="modal" aria-label="Close">
-
+                  @click="onClosePopup">
           </button>
         </div>
         <div class="modal-body">
-          <FormSearch/>
+          <div class="condition-heading js-fix-before-header-panel">
+            <div class="pull-left">
+              <p class="search-title">検索条件</p>
+            </div>
+            <div class="pull-right">
+              <font-awesome-icon :icon="['fas', !showFormLayout ? 'caret-down' : 'caret-up']" class="pull-icon"
+                                 @click="onChangeLayout"/>
+            </div>
+          </div>
+          <FormSearch
+              :formData="formData"
+              v-if="!showFormLayout"/>
             <div class="toolbar-bottom">
               <div class="toolbar-bottom-left">
               </div>
@@ -124,7 +236,24 @@ export default {
                 </button>
               </div>
             </div>
-          <DataTables/>
+          <DataTables
+              :keyItem                       = "keyItem"
+              :headers                       = "headers"
+              :fields                        = "fields"
+              :items                         = "searchable.listData"
+              :sortColumn                    = "searchable.sortColumn"
+              :sortOrder                     = "searchable.sortOrder"
+              :currentPage                   = "searchable.currentPage"
+              :totalItems                    = "searchable.totalItems"
+              :pageSize                      = "searchable.pageSize"
+              :totalPages                    = "searchable.totalPages"
+              :startPage                     = "searchable.startPage"
+              :selectOptions                 = "selectOptions"
+              :onChangePage                  = "onChangePage"
+              :onSortable                    = "onSortable"
+              :onChangeSelectorPageSize      = "onChangeSelectorPageSize"
+              :onRelativePage                = "onRelativePage"
+          />
         </div>
       </div>
     </div>
