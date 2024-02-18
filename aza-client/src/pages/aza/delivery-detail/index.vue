@@ -40,7 +40,10 @@ import {CHANGE_OPTION, EDIT, NEW, UPDATE_FORM_DATA_DETAIL_A} from "../../../stor
 import {getLocalStorage, setLocalStorage} from "../../../common/client-side-storage/clientStorage.js";
 import {DELIVERY_DETAIL} from "../../../constants/clientConstant.js";
 import PopupSearch from "./popup/table-search/PopupSearch.vue";
-import {mapAddDetail} from "./map/detail.js";
+import {resetData} from "./map/detail.js";
+import loadDelivery from "./service/deliveryLoadData.js";
+import {errorAlert} from "../../../common/modal/popupSwal.js";
+import {NOTIFICATION_ERROR} from "../../../constants/notification.js";
 
 const {
   mapActions: mapFormDataDetailActions
@@ -55,52 +58,47 @@ export default {
     ...mapFormDataDetailActions([
       UPDATE_FORM_DATA_DETAIL_A
     ]),
-    async loadDelivery(delivery_cd) {
-      try {
-        let result = await postData(import.meta.env.VITE_APP_API_GET_DELIVERY_BY_CD, {delivery_cd});
-        if (result?.delivery) {
-          return result.delivery
-        }
-      } catch (e) {
-        console.error(e)
-        return null;
-      }
-      return null
-    },
     async handlePopUpTable(value) {
       await setLocalStorage(DELIVERY_DETAIL, value)
       this.deliveryDetailClient = value
+      let delivery = await loadDelivery(this.deliveryDetailClient.delivery_cd)
+      if(Number(delivery?.del_flg) === 0) {
+        this[UPDATE_FORM_DATA_DETAIL_A]({action: '', payload: delivery})
+        await this[UPDATE_FORM_DATA_DETAIL_A]({
+          type: CHANGE_OPTION,
+          payload: EDIT
+        })
+      } else {
+        await errorAlert('', NOTIFICATION_ERROR)
+      }
     },
     onOpenPopUp() {
       this.togglePopup = true
     },
     onClosePopUp() {
       this.togglePopup = false
-    }
+    },
   },
   async mounted() {
     this.deliveryDetailClient = null;
     if (getLocalStorage(DELIVERY_DETAIL)) {
       this.deliveryDetailClient = await getLocalStorage(DELIVERY_DETAIL);
-      let delivery = await this.loadDelivery(this.deliveryDetailClient.delivery_cd)
+      let delivery = await loadDelivery(this.deliveryDetailClient.delivery_cd)
       this[UPDATE_FORM_DATA_DETAIL_A]({action: '', payload: delivery})
-      await this[UPDATE_FORM_DATA_DETAIL_A]({action: {
-        type: CHANGE_OPTION, payload: EDIT
-      }})
+      await this[UPDATE_FORM_DATA_DETAIL_A]({
+        type: CHANGE_OPTION,
+        payload: EDIT
+      })
     } else {
-      let delivery = mapAddDetail({})
+      let delivery = resetData({})
       this[UPDATE_FORM_DATA_DETAIL_A]({action: '', payload: delivery})
-      await this[UPDATE_FORM_DATA_DETAIL_A]({action: CHANGE_OPTION, payload: NEW})
-    }
+      await this[UPDATE_FORM_DATA_DETAIL_A]({
+          type: CHANGE_OPTION, payload: NEW
+      })}
 
   },
   watch: {
-    // 'deliveryDetailClient': async function (newDeliveryDetailClient, oldDeliveryDetailClient) {
-    //   if (newDeliveryDetailClient !== oldDeliveryDetailClient) {
-    //     let delivery = await this.loadDelivery(newDeliveryDetailClient.delivery_cd);
-    //     this[UPDATE_FORM_DATA_DETAIL_A]({action: '', payload: delivery})
-    //   }
-    // },
+
   },
   data() {
     return {

@@ -34,6 +34,7 @@ import {errorAlert} from "../../../../common/modal/popupSwal.js";
 import {ASC, DESC} from "../../../../constants/sortConstant.js";
 import {setLocalStorage} from "../../../../common/client-side-storage/clientStorage.js";
 import {DELIVERY_DETAIL} from "../../../../constants/clientConstant.js";
+import loadDelivery from "../service/deliveryLoadData.js";
 const {
   mapState: mapLoadingState,
   mapActions: mapLoadingActions
@@ -88,7 +89,7 @@ export default {
             }
           })
         } catch (e) {
-          errorAlert('', NOTIFICATION_ERROR)
+          await errorAlert('', NOTIFICATION_ERROR)
           console.error(e)
         } finally {
           this[SHOW_LOADING_A](false)
@@ -116,14 +117,19 @@ export default {
         console.log('Change current page successful');
       } catch (error) {
         console.error('Error changing current page:', error);
-        errorAlert('', NOTIFICATION_ERROR)
+        await errorAlert('', NOTIFICATION_ERROR)
       } finally {
         this[SHOW_LOADING_A](false)
       }
     },
     async onRelativePage(value) {
-      await setLocalStorage(DELIVERY_DETAIL, value)
-      this.$router.push({name: "delivery-detail"});
+      let delivery = await loadDelivery(value.delivery_cd)
+      if(Number(delivery?.del_flg) === 0) {
+        await setLocalStorage(DELIVERY_DETAIL, delivery)
+        this.$router.push({name: "delivery-detail"});
+      } else {
+        await errorAlert('', NOTIFICATION_ERROR)
+      }
     },
     async onSortable(column) {
       try {
@@ -151,7 +157,7 @@ export default {
         })
       } catch (e) {
         console.error(e)
-        errorAlert('', NOTIFICATION_ERROR)
+        await errorAlert('', NOTIFICATION_ERROR)
       }
     }
   },

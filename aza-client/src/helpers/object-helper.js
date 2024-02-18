@@ -7,7 +7,7 @@ export function mergeObject(o1, o2) {
     return o1;
 }
 
-function hasNonNullValue(obj) {
+export function hasNonNullValue(obj) {
     return Object.values(obj).some(val => val !== null && val !== undefined && val !== 0 && val !== '' && val?.length !== 0);
 }
 

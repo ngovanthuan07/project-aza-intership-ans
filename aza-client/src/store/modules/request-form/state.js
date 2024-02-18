@@ -15,9 +15,9 @@ export default {
             ,    address2                    :  null
             ,    tel                         :  null
             ,    fax                         :  null
-            ,    delivery_class_1            :  null
-            ,    delivery_class_2            :  null
-            ,    delivery_class_3            :  null
+            ,    delivery_class_1            :  0
+            ,    delivery_class_2            :  0
+            ,    delivery_class_3            :  0
             ,    remark                      :  null
             ,    cre_user                    :  null
             ,    cre_prg                     :  null
@@ -27,6 +27,13 @@ export default {
             ,    upd_prg                     :  null
             ,    upd_ip                      :  null
             ,    upd_date                    :  null
+            ,    del_date                    :  null
+            ,    del_flg                     :  null
+            ,    del_ip                      :  null
+            ,    del_prg                     :  null
+            ,    del_user                    :  null
+            ,    sch_delivery_nm             :  null
+            ,    memo                        :  null
         },
         errorsMessages:                         [],
         option:                                 'NEW'

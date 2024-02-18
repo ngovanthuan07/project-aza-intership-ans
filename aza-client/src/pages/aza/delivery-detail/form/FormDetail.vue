@@ -88,6 +88,7 @@ export default {
                    maxlength="6"
                    data-maxlength="6"
                    tabindex="11"
+                   disabled
                    id="searchInput"
                    aria-label="Search"
                    aria-describedby="searchIcon" />

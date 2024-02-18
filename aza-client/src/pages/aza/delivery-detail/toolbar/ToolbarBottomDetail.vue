@@ -4,8 +4,10 @@ import {CHANGE_OPTION, EDIT, NEW, UPDATE_FORM_DATA_DETAIL_A} from "../../../../s
 import {postData} from "../../delivery-search/service/HandleAPI.js";
 import {notificationError} from "../../../../helpers/notification.js";
 import {NOTIFICATION_ERROR} from "../../../../constants/notification.js";
-import {mapAddDetail, mapUpdateDetail} from "../map/detail.js";
+import {mapAddDetail, mapUpdateDetail, resetData} from "../map/detail.js";
 import {
+  DETAIL_COPY, DETAIL_DELETE,
+  DETAIL_MODE_EDIT, DETAIL_NEW,
   DETAIL_QUESTION_REGISTER,
   DETAIL_UPDATE_FAIL,
   DETAIL_UPDATE_SUCCESSFUL
@@ -17,6 +19,8 @@ import {
   removeLocalStorage,
   getLocalStorage
 } from "../../../../common/client-side-storage/clientStorage.js";
+import {hasNonNullValue} from "../../../../helpers/object-helper.js";
+import loadDelivery from "../service/deliveryLoadData.js";
 
 const {
   mapState: mapFormDataDetailState,
@@ -33,27 +37,86 @@ export default {
     handleBack() {
       this.$router.back();
     },
-    onDelete() {
-      console.log('handle delete')
+    async onDelete() {
+      let confirmDelete = await questionAlert('[C007]',DETAIL_DELETE)
+      if(confirmDelete) {
+        if(this.formData.delivery_cd) {
+          let result = await postData(import.meta.env.VITE_APP_API_DETAIL_REMOVE, {
+              'delivery_cd': this.formData.delivery_cd,
+              'del_user': 'me',
+              'del_prg': null,
+              'del_ip': null,
+              'del_date': null,
+
+        });
+          if(result?.data) {
+            if(result?.data.result === '1') {
+              await infoAlert('[I001]', DETAIL_UPDATE_SUCCESSFUL)
+              await this.onNew()
+            } else {
+              await errorAlert('[C007]', DETAIL_UPDATE_FAIL)
+            }
+          }
+
+
+        } else {
+          await errorAlert('[C007]', DETAIL_UPDATE_FAIL)
+        }
+      }
+
     },
-    onCopy() {
-      console.log('handle copy')
+    async onCopy() {
+      let confirmCopy = await questionAlert('[C007]',DETAIL_COPY)
+      if(confirmCopy) {
+        await removeLocalStorage(DELIVERY_DETAIL)
+        await this[UPDATE_FORM_DATA_DETAIL_A]({action: '', payload: {delivery_cd: null}})
+        await this[UPDATE_FORM_DATA_DETAIL_A]({
+          type: CHANGE_OPTION, payload: NEW
+        })
+      }
     },
     async onNew() {
-      let delivery = mapAddDetail({})
-      console.log(this.option)
-      await removeLocalStorage(DELIVERY_DETAIL)
-      await this[UPDATE_FORM_DATA_DETAIL_A]({action: '', payload: delivery})
-      await this[UPDATE_FORM_DATA_DETAIL_A]({action: CHANGE_OPTION, payload: NEW})
+      // let confirmNew = await questionAlert('[C007]',DETAIL_NEW)
+      // if(confirmNew) {
+        let delivery = resetData({})
+        await removeLocalStorage(DELIVERY_DETAIL)
+        await this[UPDATE_FORM_DATA_DETAIL_A]({action: '', payload: delivery})
+        await this[UPDATE_FORM_DATA_DETAIL_A]({
+          type: CHANGE_OPTION, payload: NEW
+        })
+      // }
     },
     async onRegister() {
       try {
         let confirmUpdate = await questionAlert('[C007]',DETAIL_QUESTION_REGISTER)
         if(confirmUpdate) {
-          let data = await mapUpdateDetail(this.formData);
-          let result = await postData(import.meta.env.VITE_APP_API_DETAIL_UPDATE, data);
-
+          let result;
+          let data;
+          if(this.option === EDIT) {
+            data = await mapUpdateDetail(this.formData);
+            result = await postData(import.meta.env.VITE_APP_API_DETAIL_UPDATE, data);
+          } else {
+            data = await mapAddDetail(this.formData);
+            result = await postData(import.meta.env.VITE_APP_API_DETAIL_ADD, data);
+          }
           await infoAlert('[I001]', DETAIL_UPDATE_SUCCESSFUL)
+
+          if(result?.data) {
+            let confirmModeEdit = await questionAlert('[C007]',DETAIL_MODE_EDIT)
+            if(confirmModeEdit) {
+              let delivery_cd = this.option === EDIT ? data.delivery_cd : result?.data.delivery_cd;
+              let delivery = await loadDelivery(delivery_cd)
+              await setLocalStorage(DELIVERY_DETAIL, delivery)
+              await this[UPDATE_FORM_DATA_DETAIL_A]({action: '', payload: delivery})
+              await this[UPDATE_FORM_DATA_DETAIL_A]({
+                type: CHANGE_OPTION, payload: EDIT
+              })
+            } else {
+              await this.onNew()
+            }
+          } else {
+            await errorAlert('[C007]', DETAIL_UPDATE_FAIL)
+          }
         }
       } catch (e) {
         console.error('Error download file:', e);
@@ -62,15 +125,28 @@ export default {
       }
     },
     disabledBtn(btn) {
-      // console.log(this.option)
       switch (btn) {
         case 'delete': {
-          if(this.option === EDIT) {
-            return false
+          if (this.option === EDIT) {
+            return false;
           }
+          break;
         }
-        return true;
+        case 'copy': {
+          if (this.option === EDIT) {
+            return false;
+          }
+          break;
+        }
+        case 'register': {
+          let isSomeNonNullValueFormData = hasNonNullValue(this.formData)
+          if(isSomeNonNullValueFormData) {
+            return false;
+          }
+          break;
+        }
       }
+      return true;
     }
   },
   computed: {
@@ -99,13 +175,13 @@ export default {
       <button :disabled="disabledBtn('delete')"  class="btn btn-delete" @click="onDelete" tabindex="101">
         削除
       </button>
-      <button class="btn btn-copy" @click="onCopy" tabindex="102">
+      <button :disabled="disabledBtn('copy')"   class="btn btn-copy" @click="onCopy" tabindex="102">
         複写
       </button>
       <button class="btn btn-new" @click="onNew" tabindex="103">
         新規
       </button>
-      <button class="btn btn-register" @click="onRegister" tabindex="104">
+      <button :disabled="disabledBtn('register')"  class="btn btn-register" @click="onRegister" tabindex="104">
         登録
       </button>
     </div>

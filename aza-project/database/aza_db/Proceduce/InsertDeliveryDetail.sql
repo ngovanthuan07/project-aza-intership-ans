@@ -5,8 +5,7 @@ IF OBJECT_ID('dbo.[usp_InsertDelivery]', 'P') IS NOT NULL
     DROP PROCEDURE [dbo].[usp_InsertDelivery]
 GO
 CREATE PROCEDURE [dbo].[usp_InsertDelivery]
-     @P_delivery_cd                     NVARCHAR(6)
-,    @P_delivery_nm1                    VARCHAR(80)
+     @P_delivery_nm1                    VARCHAR(80)
 ,    @P_delivery_kn1                    VARCHAR(80)
 ,    @P_delivery_nm2                    VARCHAR(80)
 ,    @P_delivery_kn2                    VARCHAR(80)
@@ -33,6 +32,11 @@ BEGIN
 
     BEGIN TRY
         BEGIN TRANSACTION
+
+        DECLARE @w_unique_id NVARCHAR(6);
+
+        SET @w_unique_id = (SELECT RIGHT('00000' + CAST(ISNULL(MAX(CAST([delivery_cd] AS INT)), 0) + 1 AS NVARCHAR(6)), 6) FROM [dbo].[m_delivery]);
+
         
         INSERT INTO [dbo].[m_delivery] (
                           [delivery_cd] 
@@ -57,9 +61,10 @@ BEGIN
         ,                 [cre_prg] 
         ,                 [cre_ip] 
         ,                 [cre_date]
+        ,                 [del_flg]
         )
         VALUES (
-                          @P_delivery_cd
+                          LEFT(@w_unique_id, 6)
         ,                 @P_delivery_nm1
         ,                 @P_delivery_kn1
         ,                 @P_delivery_nm2
@@ -81,8 +86,9 @@ BEGIN
         ,                 @P_cre_prg
         ,                 @P_cre_ip
         ,                 @P_cre_date
+        ,                 0
         )
-   
+        SELECT @w_unique_id AS delivery_cd
         COMMIT TRANSACTION
     END TRY
     BEGIN CATCH

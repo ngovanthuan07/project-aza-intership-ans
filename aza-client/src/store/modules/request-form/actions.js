@@ -7,13 +7,11 @@ import {
 
 export default {
     [UPDATE_FORM_DATA_DETAIL_A]({ commit }, action) {
-        const type = action.type;
+        let type = action.type;
         let payload = action.payload
-        console.log('payload', type)
 
         switch (type) {
             case CHANGE_OPTION: {
-
                 commit(CHANGE_OPTION, payload)
                 break;
             }

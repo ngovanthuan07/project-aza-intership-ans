@@ -9,9 +9,8 @@ use Illuminate\Support\Facades\DB;
 class DetailController extends Controller
 {
     public function add(Request $request) {
-        $query = 'EXEC [usp_InsertDelivery]
-                         :delivery_cd                 
-                    ,    :delivery_nm1                
+        $query = 'EXEC [usp_InsertDelivery]             
+                         :delivery_nm1                
                     ,    :delivery_kn1                
                     ,    :delivery_nm2                
                     ,    :delivery_kn2                
@@ -34,10 +33,15 @@ class DetailController extends Controller
                     ,    :cre_date                  
                     
         ';
+
         $result = DB::select($query, $request->all());
 
+        if(is_array($result)) {
+            $result = collect($result)->first();
+        }
+
         return response()->json([
-            'result' => $result
+            'data' => $result
         ]);
     }
 
@@ -69,25 +73,33 @@ class DetailController extends Controller
         ';
 
         $result = DB::select($query, $request->all());
+        
+        if(is_array($result)) {
+            $result = collect($result)->first();
+        }
+
         return response()->json([
-            'result' => $result
+            'data' => $result
         ]);
     }
 
     public function remove(Request $request) {
         $query = 'EXEC usp_DeleteDelivery
-                    ,     :delivery_cd                 
+                          :delivery_cd                 
                     ,     :del_user
                     ,     :del_prg 
                     ,     :del_ip
                     ,     :del_date
-                    ,     :del_flg             
                     
         ';
         $result = DB::select($query, $request->all());
             
+        if(is_array($result)) {
+            $result = collect($result)->first();
+        }
+
         return response()->json([
-            'result' => $result
+            'data' => $result
         ]);
     }
 }

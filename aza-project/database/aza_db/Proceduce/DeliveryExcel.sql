@@ -63,13 +63,14 @@ BEGIN
     )
     LEFT OUTER JOIN m_users     AS cre_m_user ON     (
 		d.cre_user			    =  cre_m_user.user_cd 
-	--AND cre_m_user.del_flg		= 0
+	AND cre_m_user.del_flg		= 0
 	) 
 	LEFT OUTER JOIN m_users     AS upd_m_user  ON    (
 		d.upd_user			    = upd_m_user.user_cd
-	--AND upd_m_user.del_flg		= 0
+	AND upd_m_user.del_flg		= 0
     )
-    WHERE (
+    WHERE (d.del_flg = 0)
+    AND   (
        @P_delivery_cd           IS NULL
     OR d.delivery_cd            LIKE N'%' + @P_delivery_cd + '%'
     )
