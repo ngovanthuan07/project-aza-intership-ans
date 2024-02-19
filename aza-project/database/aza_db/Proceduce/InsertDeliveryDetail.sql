@@ -66,9 +66,9 @@ BEGIN
         VALUES (
                           LEFT(@w_unique_id, 6)
         ,                 @P_delivery_nm1
-        ,                 @P_delivery_kn1
+        ,                 N'' + @P_delivery_kn1 + ''
         ,                 @P_delivery_nm2
-        ,                 @P_delivery_kn2
+        ,                 N'' + @P_delivery_kn2 + ''
         ,                 @P_zip_cd
         ,                 @P_prefecture_cd
         ,                 @P_city_nm

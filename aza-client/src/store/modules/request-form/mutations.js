@@ -1,5 +1,5 @@
 import {
-    CHANGE_OPTION,
+    CHANGE_OPTION, SET_ERROR_MESSAGE,
     SET_FORM_DATA_DETAIL_M
 
 } from "./types.js";
@@ -10,5 +10,12 @@ export default {
     },
     [CHANGE_OPTION](state, payload) {
         state.deliveryDetail.option = payload
+    },
+    [SET_ERROR_MESSAGE](state, payload) {
+        if(payload === null) {
+            state.deliveryDetail.errorsMessages = {}
+        } else {
+            state.deliveryDetail.errorsMessages = {...state.deliveryDetail.errorsMessages, ...payload}
+        }
     }
 }

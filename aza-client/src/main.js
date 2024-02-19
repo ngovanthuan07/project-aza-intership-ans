@@ -20,10 +20,11 @@ import 'bootstrap/dist/css/bootstrap-grid.min.css';
 import 'bootstrap/dist/css/bootstrap-utilities.min.css';
 
 import store from './store'
-
+import VueTheMask from 'vue-the-mask'
 
 const app = createApp(App)
 app.use(route)
 app.use(store)
+app.use(VueTheMask)
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.mount('#app')

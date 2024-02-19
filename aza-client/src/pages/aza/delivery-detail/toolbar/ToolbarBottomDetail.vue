@@ -1,6 +1,12 @@
 <script>
 import {createNamespacedHelpers} from "vuex";
-import {CHANGE_OPTION, EDIT, NEW, UPDATE_FORM_DATA_DETAIL_A} from "../../../../store/modules/request-form/types.js";
+import {
+  CHANGE_ERROR_MESSAGE,
+  CHANGE_OPTION,
+  EDIT,
+  NEW,
+  UPDATE_FORM_DATA_DETAIL_A
+} from "../../../../store/modules/request-form/types.js";
 import {postData} from "../../delivery-search/service/HandleAPI.js";
 import {notificationError} from "../../../../helpers/notification.js";
 import {NOTIFICATION_ERROR} from "../../../../constants/notification.js";
@@ -21,6 +27,8 @@ import {
 } from "../../../../common/client-side-storage/clientStorage.js";
 import {hasNonNullValue} from "../../../../helpers/object-helper.js";
 import loadDelivery from "../service/deliveryLoadData.js";
+import {ValidateFormData} from "../../../../common/validation/validation.js";
+import {rules, messages} from "../request/formDetailRequest.js";
 
 const {
   mapState: mapFormDataDetailState,
@@ -88,34 +96,47 @@ export default {
     },
     async onRegister() {
       try {
-        let confirmUpdate = await questionAlert('[C007]',DETAIL_QUESTION_REGISTER)
-        if(confirmUpdate) {
-          let result;
-          let data;
-          if(this.option === EDIT) {
-            data = await mapUpdateDetail(this.formData);
-            result = await postData(import.meta.env.VITE_APP_API_DETAIL_UPDATE, data);
-          } else {
-            data = await mapAddDetail(this.formData);
-            result = await postData(import.meta.env.VITE_APP_API_DETAIL_ADD, data);
-          }
-          await infoAlert('[I001]', DETAIL_UPDATE_SUCCESSFUL)
-
-          if(result?.data) {
-            let confirmModeEdit = await questionAlert('[C007]',DETAIL_MODE_EDIT)
-            if(confirmModeEdit) {
-              let delivery_cd = this.option === EDIT ? data.delivery_cd : result?.data.delivery_cd;
-              let delivery = await loadDelivery(delivery_cd)
-              await setLocalStorage(DELIVERY_DETAIL, delivery)
-              await this[UPDATE_FORM_DATA_DETAIL_A]({action: '', payload: delivery})
-              await this[UPDATE_FORM_DATA_DETAIL_A]({
-                type: CHANGE_OPTION, payload: EDIT
-              })
+        let [errorMessages, isValid] = ValidateFormData({
+          'formData': this.formData,
+          'rules': rules,
+          'messages': messages
+        });
+        if(isValid) {
+          this[UPDATE_FORM_DATA_DETAIL_A]({
+            type: CHANGE_ERROR_MESSAGE,
+            payload: errorMessages
+          })
+          await errorAlert('[C007]', DETAIL_UPDATE_FAIL)
+        } else {
+          let confirmUpdate = await questionAlert('[C007]',DETAIL_QUESTION_REGISTER)
+          if(confirmUpdate) {
+            let result;
+            let data;
+            if(this.option === EDIT) {
+              data = await mapUpdateDetail(this.formData);
+              result = await postData(import.meta.env.VITE_APP_API_DETAIL_UPDATE, data);
             } else {
-              await this.onNew()
+              data = await mapAddDetail(this.formData);
+              result = await postData(import.meta.env.VITE_APP_API_DETAIL_ADD, data);
             }
-          } else {
-            await errorAlert('[C007]', DETAIL_UPDATE_FAIL)
+            await infoAlert('[I001]', DETAIL_UPDATE_SUCCESSFUL)
+
+            if(result?.data) {
+              let confirmModeEdit = await questionAlert('[C007]',DETAIL_MODE_EDIT)
+              if(confirmModeEdit) {
+                let delivery_cd = this.option === EDIT ? data.delivery_cd : result?.data.delivery_cd;
+                let delivery = await loadDelivery(delivery_cd)
+                await setLocalStorage(DELIVERY_DETAIL, delivery)
+                await this[UPDATE_FORM_DATA_DETAIL_A]({action: '', payload: delivery})
+                await this[UPDATE_FORM_DATA_DETAIL_A]({
+                  type: CHANGE_OPTION, payload: EDIT
+                })
+              } else {
+                await this.onNew()
+              }
+            } else {
+              await errorAlert('[C007]', DETAIL_UPDATE_FAIL)
+            }
           }
         }
       } catch (e) {
@@ -152,7 +173,8 @@ export default {
   computed: {
     ...mapFormDataDetailState({
       formData: state => state.deliveryDetail.formData,
-      option: state => state.deliveryDetail.option
+      option: state => state.deliveryDetail.option,
+      errors:   state => state.deliveryDetail.errorsMessages
     }),
   },
   data() {

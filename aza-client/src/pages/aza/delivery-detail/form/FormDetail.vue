@@ -2,10 +2,12 @@
 import {createNamespacedHelpers} from "vuex";
 import {getData} from "../service/HandleAPI.js";
 import PopupSearch from "../popup/table-search/PopupSearch.vue";
-import {UPDATE_FORM_DATA_DETAIL_A} from "../../../../store/modules/request-form/types.js";
+import {CHANGE_ERROR_MESSAGE, UPDATE_FORM_DATA_DETAIL_A} from "../../../../store/modules/request-form/types.js";
 import {AC_CHANGE_DATATABLES, RESET_STATE} from "../../../../store/modules/data-table/types.js";
 import {ON_RESET_FORM_DATA} from "../../../../store/modules/delivery-search/search-from/types.js";
 import {SHOW_LOADING_A} from "../../../../store/modules/loading-spinner/types.js";
+import {ValidateField} from "../../../../common/validation/validation.js";
+import {rules, messages} from "../request/formDetailRequest.js";
 const {
   mapState: mapDatableState,
   mapActions: mapDatatableActions
@@ -23,6 +25,9 @@ const {
   mapState: mapFormDataDetailState,
   mapActions: mapFormDataDetailActions
 } = createNamespacedHelpers('requestForm');
+
+
+
 export default {
   components: {PopupSearch},
   props: {
@@ -54,22 +59,42 @@ export default {
       setTimeout(() => {
         this[SHOW_LOADING_A](false);
       }, 200);
-    }
+    },
+    // start valid
+    handleBlur(fieldName, init = '') {
+
+      this.errors[fieldName] = ValidateField({
+        'value': this.formData[fieldName] ? this.formData[fieldName] : init,
+        'rules': rules[fieldName],
+        'messages': messages[fieldName]
+      })
+    },
+    hasError(fieldName) {
+      return !this.errors[fieldName] ?  false : (
+          !(this.errors[fieldName].length > 0) ? false : true
+      );
+    },
+    getFirstError(fieldName) {
+      return this.errors[fieldName][0]
+    },
+    // end valid
   },
   computed: {
     ...mapFormDataDetailState({
-      formData: state => state.deliveryDetail.formData
+      formData: state => state.deliveryDetail.formData,
+      errors:   state => state.deliveryDetail.errorsMessages
     })
   },
   mounted () {
     this.getDeliveryClasses();
+
   },
   data() {
     return {
       deliveryClassOne: [],
       deliveryClassTwo: [],
       deliveryClassThree: [],
-      prefectures: []
+      prefectures: [],
     };
   },
 }
@@ -109,8 +134,13 @@ export default {
           <input type="text" class="form-control"
                  maxlength="50"
                  v-model="formData.delivery_nm1"
+                 @blur="handleBlur('delivery_nm1')"
+                 :class="{'is-validate' : hasError('delivery_nm1') === true }"
                  id="normalInput1"
                  tabindex="13"/>
+          <div v-if="hasError('delivery_nm1')" class="error-message">
+            {{getFirstError('delivery_nm1')}}
+          </div>
         </div>
       </div>
 
@@ -120,9 +150,14 @@ export default {
           <input type="text"
                  maxlength="40"
                  v-model="formData.delivery_nm2"
+                 @blur="handleBlur('delivery_nm2')"
                  class="form-control"
+                 :class="{'is-validate' : hasError('delivery_nm2') === true }"
                  id="normalInput2"
                  tabindex="14"/>
+          <div v-if="hasError('delivery_nm2')" class="error-message">
+            {{getFirstError('delivery_nm2')}}
+          </div>
         </div>
       </div>
     </div>
@@ -132,10 +167,15 @@ export default {
           <label for="normalInput1" class="form-label">フリガナ1</label>
           <input type="text"
                  v-model="formData.delivery_kn1"
+                 @blur="handleBlur('delivery_kn1')"
+                 :class="{'is-validate' : hasError('delivery_kn1') === true }"
                  class="form-control"
                  maxlength="80"
                  id="normalInput1"
                  tabindex="15"/>
+          <div v-if="hasError('delivery_kn1')" class="error-message">
+            {{getFirstError('delivery_kn1')}}
+          </div>
         </div>
       </div>
 
@@ -144,10 +184,15 @@ export default {
           <label for="normalInput2" class="form-label">フリガナ2</label>
           <input type="text"
                  v-model="formData.delivery_kn2"
+                 @blur="handleBlur('delivery_kn2')"
+                 :class="{'is-validate' : hasError('delivery_kn2') === true }"
                  maxlength="80"
                  class="form-control"
                  id="normalInput2"
                  tabindex="16"/>
+          <div v-if="hasError('delivery_kn2')" class="error-message">
+            {{getFirstError('delivery_kn2')}}
+          </div>
         </div>
       </div>
     </div>
@@ -158,9 +203,15 @@ export default {
           <input type="text"
                  class="form-control"
                  v-model="formData.zip_cd"
+                 @blur="handleBlur('zip_cd')"
+                 :class="{'is-validate' : hasError('zip_cd') === true }"
                  maxlength="8"
+                 v-mask="'###-####'"
                  id="normalInput2"
                  tabindex="17"/>
+          <div v-if="hasError('zip_cd')" class="error-message">
+            {{getFirstError('zip_cd')}}
+          </div>
         </div>
       </div>
 
@@ -241,8 +292,14 @@ export default {
                  maxlength="20"
                  class="form-control"
                  v-model="formData.tel"
+                 @blur="handleBlur('tel')"
+                 v-mask="['###-####-####', '##-####-####']"
+                 :class="{'is-validate' : hasError('tel') === true }"
                  id="normalInput2"
                  tabindex="22"/>
+          <div v-if="hasError('tel')" class="error-message">
+            {{getFirstError('tel')}}
+          </div>
         </div>
       </div>
       <div class="col-3">
@@ -252,8 +309,14 @@ export default {
                  maxlength="20"
                  class="form-control"
                  v-model="formData.fax"
+                 v-mask="'##-####-####'"
+                 @blur="handleBlur('fax')"
+                 :class="{'is-validate' : hasError('fax') === true }"
                  id="normalInput2"
                  tabindex="23"/>
+          <div v-if="hasError('fax')" class="error-message">
+            {{getFirstError('fax')}}
+          </div>
         </div>
       </div>
     </div>
@@ -320,4 +383,5 @@ export default {
 
 <style>
 @import "./css/css.css";
+@import "./css/valid.css";
 </style>

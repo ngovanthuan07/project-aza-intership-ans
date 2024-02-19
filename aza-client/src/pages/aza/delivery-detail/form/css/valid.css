@@ -1,0 +1,42 @@
+.is-validate {
+    border-color: #e04c5a !important;
+    background: #dfe9f180;
+}
+
+.is-validate:focus {
+    border-color: #e04c5a !important;
+}
+
+.form-group {
+    position: relative;
+    cursor: pointer;
+}
+
+.form-group:hover .error-message {
+    display: block;
+}
+
+.error-message {
+    display: none;
+    position: absolute;
+    bottom: calc(100% - 20px);
+    left: 0;
+    background-color: #f44336; /* Red background color */
+    color: white;
+    padding: 10px;
+    border-radius: 2px;
+    z-index: 111;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+}
+
+.error-message::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 15%;
+    transform: translateX(-50%) rotate(180deg);
+    border-width: 0 5px 5px;
+    border-style: solid;
+    border-color: transparent transparent #f44336;
+}

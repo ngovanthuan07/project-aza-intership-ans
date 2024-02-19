@@ -35,7 +35,7 @@ export default {
             ,    sch_delivery_nm             :  null
             ,    memo                        :  null
         },
-        errorsMessages:                         [],
+        errorsMessages:                         {},
         option:                                 'NEW'
     },
 

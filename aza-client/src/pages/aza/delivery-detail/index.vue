@@ -36,7 +36,13 @@
 import FormDetail from './form/FormDetail.vue'
 import {postData} from "./service/HandleAPI.js";
 import {createNamespacedHelpers} from "vuex";
-import {CHANGE_OPTION, EDIT, NEW, UPDATE_FORM_DATA_DETAIL_A} from "../../../store/modules/request-form/types.js";
+import {
+  CHANGE_ERROR_MESSAGE,
+  CHANGE_OPTION,
+  EDIT,
+  NEW,
+  UPDATE_FORM_DATA_DETAIL_A
+} from "../../../store/modules/request-form/types.js";
 import {getLocalStorage, setLocalStorage} from "../../../common/client-side-storage/clientStorage.js";
 import {DELIVERY_DETAIL} from "../../../constants/clientConstant.js";
 import PopupSearch from "./popup/table-search/PopupSearch.vue";
@@ -95,6 +101,11 @@ export default {
       await this[UPDATE_FORM_DATA_DETAIL_A]({
           type: CHANGE_OPTION, payload: NEW
       })}
+
+      this[UPDATE_FORM_DATA_DETAIL_A]({
+        type: CHANGE_ERROR_MESSAGE,
+        payload: null
+      })
 
   },
   watch: {
